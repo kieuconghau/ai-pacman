@@ -2,7 +2,7 @@ Course: Artificial Intelligence - HCMUS
 Contributors:
 * [Nguyễn Hoàng Nhân - 18127017](https://github.com/hoangnhan1105)
 * [Kiều Công Hậu - 18127259](https://github.com/kieuconghau)
-* Trần Đình Sang - 18127267
+* [Trần Đình Sang - 18127267](https://github.com/oOo-Solar-oOo)
 * [Trần Thanh Tâm - 18127268](https://github.com/TranThanhTamBuu)
 
 <h1 align='center'>PROJECT 1 - SEARCH (PACMAN)</h1>
