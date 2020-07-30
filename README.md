@@ -10,7 +10,7 @@
 ## Problem Description
 You are given a file which describe Pac-man World. Propose or apply learned algorithms to help Pac-Man to find foods without dying by monsters.
 
-<p align='center'><img align='center' src="https://lh3.googleusercontent.com/proxy/tMDqOCZuk72J6JKuYRk8uontagdG-Zs_NlVIOP_nJtmMh9C7IdqiCAHEUU_LUb2cstvQ1Ruj6vUWiHpgbNQs1RjRHJ80"></p>
+<p align='center'><img align='center' src="http://ai.berkeley.edu/images/pacman_game.gif"></p>
 
 Pacman or monsters only moves in 4 direction: left, right, bottom, up and cannot move over or through the wall. The game has four levels:
 - Level 1: Pac-man know the food’s position in map and monsters do not appear in map. There is only one food in the map.
