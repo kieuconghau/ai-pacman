@@ -112,11 +112,11 @@ class GUI:
         else:
             self.drawButton(self.screen, backLevelPos, LightColor, BLACK, "Back")
         pygame.display.update()
-    def getInitEvent(self):
+    def initEvent(self):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 395:
-                    self.state = 'playing'
+                    self.state = 'level'
                 elif 150 <= self.mouse[0] <= 450 and 400 <= self.mouse[1] <= 450:
                     self.state = 'level'
                 elif 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
