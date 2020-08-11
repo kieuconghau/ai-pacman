@@ -19,8 +19,11 @@ class GUI:
         self.playbackground = pygame.transform.scale(self.playbackground, (Width - 50, Height - 50))
         self.aboutbackground = pygame.image.load('background.png')
         self.aboutbackground = pygame.transform.scale(self.aboutbackground, (Width, Height))
+        self.levelbackground = pygame.image.load('bg.png')
+        self.levelbackground = pygame.transform.scale(self.levelbackground, (Width - 50, Height - 400))
         self.state = 'init'
         self.isRunning = True
+        self.difficult = level
         self.clock = pygame.time.Clock()
     def drawButton(self, surf, rect, buttonColor, text_color, text):
         pygame.draw.rect(surf, buttonColor, rect)
@@ -33,7 +36,6 @@ class GUI:
     def playDraw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.playbackground, (50 // 2, 50 // 2))
-        pygame.display.update()
     def aboutDraw(self):
         self.screen.fill(BLACK)
         self.caption = pygame.display.set_caption('About')
@@ -50,12 +52,12 @@ class GUI:
         self.screen.blit(text_surf, (150, 300))
     def levelDraw(self):
         self.screen.fill(BLACK)
-        #self.screen.blit(self.levelbackground, (50 // 2, 50 // 2))
-        pygame.display.update()
+        self.screen.blit(self.levelbackground, (50 // 2, 50 // 2))
     def playEvent(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.isRunning = False
+        pygame.display.update()
     def aboutEvent(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -71,8 +73,45 @@ class GUI:
         pygame.display.update()
     def levelEvent(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 395:
+                    self.state = 'playing'
+                    self.difficult = 1
+                elif 150 <= self.mouse[0] <= 450 and 400 <= self.mouse[1] <= 450:
+                    self.state = 'playing'
+                    self.difficult = 2
+                elif 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
+                    self.state = 'playing'
+                    self.difficult = 3
+                elif 150 <= self.mouse[0] <= 450 and 560 <= self.mouse[1] <= 610:
+                    self.state = 'playing'
+                    self.difficult = 4
+                elif 150 <= self.mouse[0] <= 450 and 600 <= self.mouse[1] <= 900:
+                    self.state = 'init'
+            elif event.type == pygame.QUIT:
                 self.isRunning = False
+        self.mouse = pygame.mouse.get_pos()
+        if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 375:
+            self.drawButton(self.screen, startPos, DarkColor, RED, "Level 1")
+        else:
+            self.drawButton(self.screen, startPos, LightColor, BLACK, "Level 1")
+        if 150 <= self.mouse[0] <= 450 and 400 <= self.mouse[1] <= 450:
+            self.drawButton(self.screen, levelPos, DarkColor, RED, "Level 2")
+        else:
+            self.drawButton(self.screen, levelPos, LightColor, BLACK, "Level 2")
+        if 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
+            self.drawButton(self.screen, aboutPos, DarkColor, RED, "Level 3")
+        else:
+            self.drawButton(self.screen, aboutPos, LightColor, BLACK, "Level 3")
+        if 150 <= self.mouse[0] <= 450 and 560 <= self.mouse[1] <= 610:
+            self.drawButton(self.screen, quitPos, DarkColor, RED, "Level 4")
+        else:
+            self.drawButton(self.screen, quitPos, LightColor, BLACK, "Level 4")
+        if 150 <= self.mouse[0] <= 450 and 600 <= self.mouse[1] <= 900:
+            self.drawButton(self.screen, backLevelPos, DarkColor, RED, "Back")
+        else:
+            self.drawButton(self.screen, backLevelPos, LightColor, BLACK, "Back")
+        pygame.display.update()
     def getInitEvent(self):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:

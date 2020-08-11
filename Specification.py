@@ -19,8 +19,17 @@ GREEN = (0, 255, 0)
 initFont = "8514fix.fon"
 
 #Position
-startPos = pygame.Rect(150, 320, 300, 50)
+startPos  = pygame.Rect(150, 320, 300, 50)
 levelPos = pygame.Rect(150, 400, 300, 50)
 aboutPos = pygame.Rect(150, 480, 300, 50)
 quitPos = pygame.Rect(150, 560, 300, 50)
+startPos  = pygame.Rect(150, 320, 300, 50)
+levelPos = pygame.Rect(150, 390, 300, 50)
+aboutPos = pygame.Rect(150, 460, 300, 50)
+quitPos = pygame.Rect(150, 530, 300, 50)
+backLevelPos = pygame.Rect(150,600,300,50)
+
 backPos = pygame.Rect(400,560,150,50)
+
+#Level
+level = 1
