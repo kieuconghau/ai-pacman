@@ -5,7 +5,7 @@ import pygame.freetype
 from Specification import *
 
 
-class GUI:
+class MyApp:
     #constructor
     def __init__(self):
         pygame.init()
@@ -53,6 +53,15 @@ class GUI:
     def levelDraw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.levelbackground, (50 // 2, 50 // 2))
+    def settingDraw(self):
+        self.levelOneMap = self.playbackground
+        self.screen.fill(BLACK)
+        self.screen.blit(self.levelOneMap, (50 // 2, 50 // 2))
+    def settingEvent(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.isRunning = False
+        pygame.display.update()
     def playEvent(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -118,7 +127,7 @@ class GUI:
                 if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 395:
                     self.state = 'level'
                 elif 150 <= self.mouse[0] <= 450 and 400 <= self.mouse[1] <= 450:
-                    self.state = 'level'
+                    self.state = 'setting'
                 elif 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
                     self.state = 'about'
                 elif 150 <= self.mouse[0] <= 450 and 560 <= self.mouse[1] <= 610:
@@ -131,9 +140,9 @@ class GUI:
         else:
             self.drawButton(self.screen, startPos, LightColor, BLACK, "Start")
         if 150 <= self.mouse[0] <= 450 and 400 <= self.mouse[1] <= 450:
-            self.drawButton(self.screen, levelPos, DarkColor, RED, "Level")
+            self.drawButton(self.screen, levelPos, DarkColor, RED, "Setting")
         else:
-            self.drawButton(self.screen, levelPos, LightColor, BLACK, "Level")
+            self.drawButton(self.screen, levelPos, LightColor, BLACK, "Setting")
         if 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
             self.drawButton(self.screen, aboutPos, DarkColor, RED, "About")
         else:
@@ -147,7 +156,7 @@ class GUI:
         while self.isRunning:
             if self.state == 'init':
                 self.initDraw()
-                self.getInitEvent()
+                self.initEvent()
             elif self.state == 'playing':
                 self.playDraw()
                 self.playEvent()
@@ -157,11 +166,14 @@ class GUI:
             elif self.state == 'level':
                 self.levelDraw()
                 self.levelEvent()
+            elif self.state == 'setting':
+                self.settingDraw()
+                self.settingEvent()
             else:
                 self.isRunning = False
         self.clock.tick(60)
         pygame.quit()
         sys.exit()
 
-a = GUI()
+a = MyApp()
 a.run()
