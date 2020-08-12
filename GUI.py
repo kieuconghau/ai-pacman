@@ -14,13 +14,14 @@ class MyApp:
         self.screen = pygame.display.set_mode((Width, Height))
         self.caption = pygame.display.set_caption('Pacman')
         self.background = pygame.image.load('bg.png')
-        self.background = pygame.transform.scale(self.background, (Width-50, Height-400))
+        self.background = pygame.transform.scale(self.background, (Width-50, Height-410))
         self.playbackground = pygame.image.load('maze.png')
-        self.playbackground = pygame.transform.scale(self.playbackground, (Width - 50, Height - 50))
+        self.playbackground = pygame.transform.scale(self.playbackground, (Width - 50, Height - 60))
         self.aboutbackground = pygame.image.load('background.png')
         self.aboutbackground = pygame.transform.scale(self.aboutbackground, (Width, Height))
-        self.levelbackground = pygame.image.load('bg.png')
-        self.levelbackground = pygame.transform.scale(self.levelbackground, (Width - 50, Height - 400))
+        self.mapOne = pygame.image.load('maze.png')
+        self.m = pygame.image.load('map.png')
+        self.map = 1
         self.state = 'init'
         self.isRunning = True
         self.difficult = level
@@ -30,6 +31,8 @@ class MyApp:
         text_surf, text_rect = self.font.render(text, text_color)
         text_rect.center = rect.center
         self.screen.blit(text_surf, text_rect)
+    def drawTriangleButton(self, surf, rect, buttonColor):
+        pygame.draw.polygon(surf, buttonColor, rect)
     def initDraw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (50//2, 50//2))
@@ -51,16 +54,44 @@ class MyApp:
         text_surf, text_rect = self.font.render("18127268 - Tran Thanh Tam", TOMATO)
         self.screen.blit(text_surf, (150, 300))
     def levelDraw(self):
+        self.levelbackground = self.background
         self.screen.fill(BLACK)
         self.screen.blit(self.levelbackground, (50 // 2, 50 // 2))
     def settingDraw(self):
-        self.levelOneMap = self.playbackground
         self.screen.fill(BLACK)
-        self.screen.blit(self.levelOneMap, (50 // 2, 50 // 2))
+
     def settingEvent(self):
+        if self.map == 1:
+            self.mapOne = pygame.transform.scale(self.mapOne, (Width - 50, Height - 64))
+            self.screen.blit(self.mapOne, (50 // 2, 0 // 2))
+        elif self.map == 2:
+            self.m = pygame.transform.scale(self.m, (Width - 50, Height - 64))
+            self.screen.blit(self.m, (50 // 2, 0 // 2))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.isRunning = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+                    self.state = 'init'
+                elif 360 <= self.mouse[0] <= 403.3 and 620 <= self.mouse[1] <= 670:
+                    if self.map < 2:
+                        self.map += 1
+                elif 206.7 <= self.mouse[0] <= 250 and 620 <= self.mouse[1] <= 670:
+                    if self.map > 1:
+                        self.map -=1
+        self.mouse = pygame.mouse.get_pos()
+        if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+            self.drawButton(self.screen, okPos, DarkColor, RED, "OK")
+        else:
+            self.drawButton(self.screen, okPos, LightColor, BLACK, "OK")
+        if 360 <= self.mouse[0] <= 403.3 and 620 <= self.mouse[1] <= 670:
+            self.drawTriangleButton(self.screen, triangle1Pos, DarkColor)
+        else:
+            self.drawTriangleButton(self.screen, triangle1Pos, LightColor)
+        if 206.7 <= self.mouse[0] <= 250 and 620 <= self.mouse[1] <= 670:
+            self.drawTriangleButton(self.screen, triangle2Pos, DarkColor)
+        else:
+            self.drawTriangleButton(self.screen, triangle2Pos, LightColor)
         pygame.display.update()
     def playEvent(self):
         for event in pygame.event.get():
@@ -101,21 +132,21 @@ class MyApp:
                 self.isRunning = False
         self.mouse = pygame.mouse.get_pos()
         if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 375:
-            self.drawButton(self.screen, startPos, DarkColor, RED, "Level 1")
+            self.drawButton(self.screen, levelOnePos, DarkColor, RED, "Level 1")
         else:
-            self.drawButton(self.screen, startPos, LightColor, BLACK, "Level 1")
+            self.drawButton(self.screen, levelOnePos, LightColor, BLACK, "Level 1")
         if 150 <= self.mouse[0] <= 450 and 400 <= self.mouse[1] <= 450:
-            self.drawButton(self.screen, levelPos, DarkColor, RED, "Level 2")
+            self.drawButton(self.screen, levelTwoPos, DarkColor, RED, "Level 2")
         else:
-            self.drawButton(self.screen, levelPos, LightColor, BLACK, "Level 2")
+            self.drawButton(self.screen, levelTwoPos, LightColor, BLACK, "Level 2")
         if 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
-            self.drawButton(self.screen, aboutPos, DarkColor, RED, "Level 3")
+            self.drawButton(self.screen, levelThreePos, DarkColor, RED, "Level 3")
         else:
-            self.drawButton(self.screen, aboutPos, LightColor, BLACK, "Level 3")
+            self.drawButton(self.screen, levelThreePos, LightColor, BLACK, "Level 3")
         if 150 <= self.mouse[0] <= 450 and 560 <= self.mouse[1] <= 610:
-            self.drawButton(self.screen, quitPos, DarkColor, RED, "Level 4")
+            self.drawButton(self.screen, levelFourPos, DarkColor, RED, "Level 4")
         else:
-            self.drawButton(self.screen, quitPos, LightColor, BLACK, "Level 4")
+            self.drawButton(self.screen, levelFourPos, LightColor, BLACK, "Level 4")
         if 150 <= self.mouse[0] <= 450 and 600 <= self.mouse[1] <= 900:
             self.drawButton(self.screen, backLevelPos, DarkColor, RED, "Back")
         else:
