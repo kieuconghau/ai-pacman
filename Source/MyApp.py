@@ -82,10 +82,17 @@ class MyApp:
                 self.draw_score()
                 pygame.time.delay(SPEED)
 
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.is_running = False
+
             pacman.move(goal)
             self.score += SCORE_BONUS
             self.draw_score()
-            self.state = STATE_VICTORY
+
+            # Thay 2 dòng dưới bằng self.state = STATE_VICTORY
+            pygame.time.delay(2000)
+            self.state = STATE_LEVEL
         else:
             self.state = STATE_GAMEOVER
 
@@ -174,20 +181,11 @@ class MyApp:
 
             pygame.time.delay(1000)
             pygame.display.update(pygame.draw.rect(self.screen, BLACK, text_rect))
-
-
-
-    def game_over(self):
-        """
-        Game over effect. Click Home button to back to the Home screen.
-        """
-        # Code here
-        pass
       
     
     def gameover_draw(self):
         self.screen.fill(BLACK)
-        self.screen.blit(self.gameover_background,(0,0))
+        self.screen.blit(self.gameover_background, (0, 0))
         self.screen.blit(self.coin, COIN_POS)
         
      
@@ -196,19 +194,11 @@ class MyApp:
             if event.type == pygame.QUIT:
                 self.is_running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if(200<=self.mouse[0]<=400 and 430<=self.mouse[1]<=630):
+                if 200 <= self.mouse[0] <= 400 and 430 <= self.mouse[1] <= 630:
                     self.state = STATE_HOME
         self.mouse = pygame.mouse.get_pos()
 
         pygame.display.update()
-
-
-    def victory(self):
-        """
-        Winning effect. Click Home button to back to the Home screen.
-        """
-        # Code here
-        pass
 
 
     def draw_score(self):
