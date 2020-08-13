@@ -11,7 +11,9 @@ FPS = 60
 MAP_IMG = [r"../Assets/map_1.png",
            r"../Assets/map_2.png"]
 MAP_INPUT_TXT = [[r"../Assets/level_1/map_1.txt", r"../Assets/level_1/map_2.txt"],
-                 [r"../Assets/level_2/map_1.txt", r"../Assets/level_2/map_2.txt"]]
+                 [r"../Assets/level_2/map_1.txt", r"../Assets/level_2/map_2.txt"],
+                 [r"../Assets/level_3/map_1.txt", r"../Assets/level_3/map_2.txt"],
+                 [r"../Assets/level_4/map_1.txt", r"../Assets/level_4/map_2.txt"]]
 MAP_NUM = len(MAP_IMG)
 
 
