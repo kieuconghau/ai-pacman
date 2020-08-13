@@ -4,6 +4,7 @@ import pygame
 # Window
 APP_WIDTH, APP_HEIGHT = 610, 680
 APP_CAPTION = r"Pacman"
+FPS = 60
 
 
 # Map
@@ -14,17 +15,21 @@ MAP_INPUT_TXT = [r"../Assets/map_0.txt",
 MAP_NUM = len(MAP_IMG)
 
 
-# Backgroud
+# Background
 HOME_BACKGROUND = r"../Assets/home_bg.png"
 ABOUT_BACKGROUND = r"../Assets/about_bg.png"
+GAMEOVER_BACKGROUND = r"../Assets/gameover_bg.png"
 
-
+# Image
+COIN_IMAGE = r"../Assets/coin.jpg"
 # Screen state
 STATE_HOME = "home"
 STATE_PLAYING = "playing"
 STATE_ABOUT = "about"
 STATE_LEVEL = "level"
 STATE_SETTING = "setting"
+STATE_GAMEOVER = "gameover"
+STATE_VICTORY = 'victoty'
 
 
 # Home screen
@@ -56,11 +61,21 @@ TRIANGLE_2_POS = [[250, 620], [250, 670], [206.7, 645]]
 # Play screen
 ROW_PADDING, COL_PADDING = 50, 60
 MAP_WIDTH, MAP_HEIGHT = APP_WIDTH - ROW_PADDING, APP_HEIGHT - COL_PADDING
+
 MAP_POS_X, MAP_POS_Y = ROW_PADDING // 2, COL_PADDING * 2 // 3
+SCORE_POS = (30, 10)
+READY_POS = (APP_WIDTH // 2, 10)
+
 CELL_SIZE = 20
 ROW, COL = MAP_WIDTH // CELL_SIZE, MAP_HEIGHT // CELL_SIZE
-SCORE_POS = (30, 10)
-SPEED = 500
+
+SPEED = 100
+
+
+# Gameover screen
+COIN_POS = (200, 430)
+COIN_WIDTH, COIN_HEIGHT = (200, 200)
+GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT = HOME_BG_WIDTH, HOME_BG_HEIGHT + 300
 
 
 # Score
