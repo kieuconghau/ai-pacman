@@ -24,7 +24,6 @@ class Pacman:
         :param new_grid_pos: new position (x, y) on the grid map
         """
         self.update(new_grid_pos)
-        self.pixel_pos = self.get_current_pixel_pos()
         self.draw(self.color)
     ####################################################################################################################
 
@@ -37,6 +36,7 @@ class Pacman:
         """
         self.draw(BLACK)
         self.grid_pos = new_grid_pos
+        self.pixel_pos = self.get_current_pixel_pos()
 
 
     def get_current_pixel_pos(self):
@@ -55,4 +55,5 @@ class Pacman:
 
         :param color: the color of the Pacman
         """
-        pygame.draw.circle(self.app.screen, color, self.pixel_pos, self.radius)
+        pacman_rect = pygame.draw.circle(self.app.screen, color, self.pixel_pos, self.radius)
+        pygame.display.update(pacman_rect)

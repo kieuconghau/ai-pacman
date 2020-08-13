@@ -38,6 +38,7 @@ class MyApp:
         """
         Launch the Pacman game with the corresponding level and map.
         """
+        pygame.display.update()
         self.score = 0
         self.draw_score()
 
@@ -66,7 +67,7 @@ class MyApp:
         food = Food.Food(self, food_pos)
         food.appear()
 
-        pygame.display.update()
+        self.ready()
 
         if path is not None:
             goal = path[-1]
@@ -74,21 +75,18 @@ class MyApp:
 
             for cell in path:
                 pacman.move(cell)
-                pygame.time.wait(SPEED)
                 self.score += SCORE_PENALTY
                 self.draw_score()
-                pygame.display.update()
+                pygame.time.delay(SPEED)
 
             pacman.move(goal)
-            pygame.time.wait(SPEED)
             self.score += SCORE_BONUS
             self.draw_score()
-            pygame.display.update()
         else:
             self.game_over()
             pass
 
-        pygame.time.wait(1000)
+        pygame.time.delay(1000)
         self.state = STATE_LEVEL
 
 
@@ -98,8 +96,7 @@ class MyApp:
         If Pac-man pass through the monster or vice versa, game is over.
         There is still one food in the map and Pac-man know its position.
         """
-        pygame.display.update()
-        pygame.time.wait(1000)
+        pygame.time.delay(1000)
         self.state = STATE_LEVEL
 
     def level_3(self):
@@ -110,8 +107,7 @@ class MyApp:
         Monsters just move one step in any valid direction (if any) around the initial location at the start of the game.
         Each step Pacman go, each step Monsters move.
         """
-        pygame.display.update()
-        pygame.time.wait(1000)
+        pygame.time.delay(1000)
         self.state = STATE_LEVEL
 
     def level_4(self):
@@ -124,14 +120,8 @@ class MyApp:
         Each step Pacman go, each step Monsters move.
         The food is so many.
         """
-        pygame.display.update()
-        pygame.time.wait(1000)
+        pygame.time.delay(1000)
         self.state = STATE_LEVEL
-
-
-    def game_over(self):
-        # Code here
-        pass
 
 
     def run(self):
@@ -158,10 +148,60 @@ class MyApp:
             else:
                 self.is_running = False
 
-        self.clock.tick(60)
+        self.clock.tick(FPS)
         pygame.quit()
         sys.exit()
     ####################################################################################################################
+
+
+    def ready(self):
+        """
+        Ready effect (3, 2, 1, GO).
+        """
+        text_list = ['3', '2', '1', 'GO']
+        for text in text_list:
+            text_surf, text_rect = self.font.render(text, WHITE)
+
+            text_pos = (READY_POS[0] - len(text)*5, READY_POS[1])
+            text_rect[0] = text_pos[0]
+            text_rect[1] = text_pos[1]
+
+            self.screen.blit(text_surf, text_pos)
+            pygame.display.update(text_rect)
+
+            pygame.time.delay(1000)
+            pygame.display.update(pygame.draw.rect(self.screen, BLACK, text_rect))
+
+
+
+    def game_over(self):
+        """
+        Game over effect. Click Home button to back to the Home screen.
+        """
+        # Code here
+        pass
+
+
+    def victory(self):
+        """
+        Winning effect. Click Home button to back to the Home screen.
+        """
+        # Code here
+        pass
+
+
+    def draw_score(self):
+        """
+        Display the current score.
+        """
+        text_surf, text_rect = self.font.render("SCORES: " + str(self.score), WHITE)
+
+        text_rect[0] = SCORE_POS[0]
+        text_rect[1] = SCORE_POS[1]
+
+        pygame.draw.rect(self.screen, BLACK, text_rect)
+        self.screen.blit(text_surf, SCORE_POS)
+        pygame.display.update(text_rect)
 
 
     def draw_grids(self):
@@ -205,19 +245,6 @@ class MyApp:
     def play_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.map, (MAP_POS_X, MAP_POS_Y))
-
-
-    def draw_score(self):
-        """
-        Display the current score.
-        """
-        text_surf, text_rect = self.font.render("SCORES: " + str(self.score), WHITE)
-
-        text_rect[0] = SCORE_POS[0]
-        text_rect[1] = SCORE_POS[1]
-
-        pygame.draw.rect(self.screen, BLACK, text_rect)
-        self.screen.blit(text_surf, SCORE_POS)
 
 
     def about_draw(self):
