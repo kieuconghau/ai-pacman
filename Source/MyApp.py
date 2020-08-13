@@ -98,6 +98,7 @@ class MyApp:
         If Pac-man pass through the monster or vice versa, game is over.
         There is still one food in the map and Pac-man know its position.
         """
+        pygame.display.update()
         pygame.time.wait(1000)
         self.state = STATE_LEVEL
 
@@ -109,6 +110,7 @@ class MyApp:
         Monsters just move one step in any valid direction (if any) around the initial location at the start of the game.
         Each step Pacman go, each step Monsters move.
         """
+        pygame.display.update()
         pygame.time.wait(1000)
         self.state = STATE_LEVEL
 
@@ -122,6 +124,7 @@ class MyApp:
         Each step Pacman go, each step Monsters move.
         The food is so many.
         """
+        pygame.display.update()
         pygame.time.wait(1000)
         self.state = STATE_LEVEL
 
