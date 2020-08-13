@@ -32,4 +32,5 @@ class Food:
         """
         Draw the Food onto the screen.
         """
-        pygame.draw.circle(self.app.screen, self.color, self.pixel_pos, self.radius)
+        food_rect = pygame.draw.circle(self.app.screen, self.color, self.pixel_pos, self.radius)
+        pygame.display.update(food_rect)
