@@ -87,11 +87,11 @@ class MyApp:
                         self.is_running = False
 
             pacman.move(goal)
-            self.score += SCORE_BONUS
+            self.score += SCORE_PENALTY + SCORE_BONUS
             self.draw_score()
+            pygame.time.delay(1000)
 
-            # Thay 2 dòng dưới bằng self.state = STATE_VICTORY
-            pygame.time.delay(2000)
+            # Thay dòng dưới bằng self.state = STATE_VICTORY
             self.state = STATE_LEVEL
         else:
             self.state = STATE_GAMEOVER
