@@ -5,6 +5,7 @@ import Food
 import Monster
 import Map
 import GraphSearchAStar
+import HeuristicLocalSearch
 from Specification import *
 
 
@@ -181,6 +182,7 @@ class MyApp:
         pygame.time.delay(1000)
 
 
+
     def level_3(self):
         """
         Level 3: Pac-man cannot see the foods if they are outside Pacman’s nearest threestep.
@@ -189,8 +191,33 @@ class MyApp:
         Monsters just move one step in any valid direction (if any) around the initial location at the start of the game.
         Each step Pacman go, each step Monsters move.
         """
+        cells, graph_map, pacman_pos, food_pos = Map.read_map_level_3(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
+
+        foods = [Food.Food(self, pos) for pos in food_pos]
+        for food in foods:
+            food.appear()
+
+        pacman = Pacman.Pacman(self, pacman_pos.pos)
+        pacman.appear()
+
+        while True:
+            pacman_pos.pacman_leave()
+            pacman_pos = HeuristicLocalSearch.local_search(cells, graph_map, pacman_pos)
+            pacman_pos.pacman_come()
+
+            self.score += SCORE_PENALTY
+
+            if pacman_pos.pos in food_pos:
+                foods.pop(pacman_pos.pos)
+                self.score += SCORE_BONUS
+
+            pacman.draw(pacman_pos.pos)
+            self.draw_score()
+
+
         pygame.time.delay(1000)
         self.state = STATE_GAMEOVER
+
 
     def level_4(self):
         """
