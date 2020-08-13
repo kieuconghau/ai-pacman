@@ -17,14 +17,17 @@ MAP_NUM = len(MAP_IMG)
 # Backgroud
 HOME_BACKGROUND = r"../Assets/home_bg.png"
 ABOUT_BACKGROUND = r"../Assets/about_bg.png"
+GAMEOVER_BACKGROUND = r"../Assets/gameover_bg.png"
 
-
+# Image
+COIN_IMAGE = r"../Assets/coin.jpg"
 # Screen state
 STATE_HOME = "home"
 STATE_PLAYING = "playing"
 STATE_ABOUT = "about"
 STATE_LEVEL = "level"
 STATE_SETTING = "setting"
+STATE_GAMEOVER = "gameover"
 
 
 # Home screen
@@ -60,9 +63,12 @@ MAP_POS_X, MAP_POS_Y = ROW_PADDING // 2, COL_PADDING * 2 // 3
 CELL_SIZE = 20
 ROW, COL = MAP_WIDTH // CELL_SIZE, MAP_HEIGHT // CELL_SIZE
 SCORE_POS = (30, 10)
-SPEED = 500
+SPEED = 20
 
-
+# Gameover screen
+COIN_POS = (200,430)
+COIN_WIDTH, COIN_HEIGHT = (200,200)
+GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT = HOME_BG_WIDTH, HOME_BG_HEIGHT + 300
 # Score
 SCORE_BONUS = 20
 SCORE_PENALTY = -1
