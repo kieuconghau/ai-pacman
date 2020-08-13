@@ -4,7 +4,6 @@ import Pacman
 import Food
 import Map
 import GraphSearchAStar
-import time
 from Specification import *
 
 
@@ -78,8 +77,7 @@ class MyApp:
 
             for cell in path:
                 pacman.move(cell)
-                time.sleep(0.07)
-                #pygame.time.delay(SPEED)
+                pygame.time.delay(70)
                 self.score += SCORE_PENALTY
                 self.draw_score()
                 pygame.display.update()
