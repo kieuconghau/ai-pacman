@@ -15,7 +15,6 @@ class Food:
         Make the Food appear on the screen.
         """
         self.draw()
-        pygame.display.update()
     ####################################################################################################################
 
 

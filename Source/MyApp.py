@@ -66,20 +66,24 @@ class MyApp:
         food = Food.Food(self, food_pos)
         food.appear()
 
+        pygame.display.update()
+
         if path is not None:
             goal = path[-1]
-            path = path[:-1]
+            path = path[1:-1]
 
             for cell in path:
                 pacman.move(cell)
                 pygame.time.wait(SPEED)
                 self.score += SCORE_PENALTY
                 self.draw_score()
+                pygame.display.update()
 
             pacman.move(goal)
             pygame.time.wait(SPEED)
             self.score += SCORE_BONUS
             self.draw_score()
+            pygame.display.update()
         else:
             self.game_over()
             pass
@@ -94,6 +98,7 @@ class MyApp:
         If Pac-man pass through the monster or vice versa, game is over.
         There is still one food in the map and Pac-man know its position.
         """
+        pygame.display.update()
         pygame.time.wait(1000)
         self.state = STATE_LEVEL
 
@@ -105,6 +110,7 @@ class MyApp:
         Monsters just move one step in any valid direction (if any) around the initial location at the start of the game.
         Each step Pacman go, each step Monsters move.
         """
+        pygame.display.update()
         pygame.time.wait(1000)
         self.state = STATE_LEVEL
 
@@ -118,6 +124,7 @@ class MyApp:
         Each step Pacman go, each step Monsters move.
         The food is so many.
         """
+        pygame.display.update()
         pygame.time.wait(1000)
         self.state = STATE_LEVEL
 
@@ -211,7 +218,6 @@ class MyApp:
 
         pygame.draw.rect(self.screen, BLACK, text_rect)
         self.screen.blit(text_surf, SCORE_POS)
-        pygame.display.update()
 
 
     def about_draw(self):
