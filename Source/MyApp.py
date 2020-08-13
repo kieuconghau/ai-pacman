@@ -181,6 +181,10 @@ class MyApp:
 
             pygame.time.delay(1000)
             pygame.display.update(pygame.draw.rect(self.screen, BLACK, text_rect))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.is_running = False
       
     
     def gameover_draw(self):
