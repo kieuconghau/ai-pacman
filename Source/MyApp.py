@@ -2,6 +2,7 @@ import sys
 import pygame.freetype
 import Pacman
 import Food
+import Monster
 import Map
 import GraphSearchAStar
 from Specification import *
@@ -73,8 +74,7 @@ class MyApp:
         Level 1: Pac-man know the food’s position in map and monsters do not appear in map.
         There is only one food in the map.
         """
-        graph_map, pacman_pos, food_pos = Map.read_map_level_1(MAP_INPUT_TXT[self.current_map_index])
-
+        graph_map, pacman_pos, food_pos = Map.read_map_level_1(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
         path = GraphSearchAStar.search(graph_map, pacman_pos, food_pos)
 
         pacman = Pacman.Pacman(self, pacman_pos)
@@ -102,10 +102,11 @@ class MyApp:
             pacman.move(goal)
             self.score += SCORE_PENALTY + SCORE_BONUS
             self.draw_score()
-            pygame.time.delay(1000)
             self.state = STATE_VICTORY
         else:
             self.state = STATE_GAMEOVER
+
+        pygame.time.delay(1000)
 
 
     def level_2(self):
@@ -114,8 +115,71 @@ class MyApp:
         If Pac-man pass through the monster or vice versa, game is over.
         There is still one food in the map and Pac-man know its position.
         """
+        graph_map, pacman_pos, food_pos, monster_pos_list =\
+            Map.read_map_level_2(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index], monster_as_wall=True)
+
+        path = GraphSearchAStar.search(graph_map, pacman_pos, food_pos)
+
+        pacman = Pacman.Pacman(self, pacman_pos)
+        pacman.appear()
+
+        food = Food.Food(self, food_pos)
+        food.appear()
+
+        monster_list = [Monster.Monster(self, monster_pos) for monster_pos in monster_pos_list]
+        for monster in monster_list:
+            monster.appear()
+
+        if path is None:
+            graph_map, pacman_pos, food_pos, monster_pos_list = \
+                Map.read_map_level_2(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index],
+                                     monster_as_wall=False)
+
+            path = GraphSearchAStar.search(graph_map, pacman_pos, food_pos)
+
+            if path is not None:
+                self.ready()
+
+                path = path[1:]
+
+                for cell in path:
+                    pacman.move(cell)
+                    self.score += SCORE_PENALTY
+                    self.draw_score()
+
+                    if cell in monster_pos_list:
+                        break
+
+                    pygame.time.delay(SPEED)
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.is_running = False
+
+            self.state = STATE_GAMEOVER
+        else:
+            self.ready()
+
+            goal = path[-1]
+            path = path[1:-1]
+
+            for cell in path:
+                pacman.move(cell)
+                self.score += SCORE_PENALTY
+                self.draw_score()
+                pygame.time.delay(SPEED)
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.is_running = False
+
+            pacman.move(goal)
+            self.score += SCORE_PENALTY + SCORE_BONUS
+            self.draw_score()
+            self.state = STATE_VICTORY
+
         pygame.time.delay(1000)
-        self.state = STATE_GAMEOVER
+
 
     def level_3(self):
         """
