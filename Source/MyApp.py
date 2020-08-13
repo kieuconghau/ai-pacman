@@ -31,6 +31,19 @@ class MyApp:
         self.gameover_background = pygame.transform.scale(self.gameover_background, (GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT))
         self.coin = pygame.image.load(COIN_IMAGE)
         self.coin = pygame.transform.scale(self.coin, (COIN_WIDTH, COIN_HEIGHT))
+        self.victory_background = pygame.image.load(VICTORY_BACKGROUND)
+        self.victory_background = pygame.transform.scale(self.victory_background, (VICTORY_WIDTH, VICTORY_HEIGHT))
+        self.pacman1 = pygame.image.load(PACMAN1)
+        self.pacman1 = pygame.transform.scale(self.pacman1, (PACMAN_WIDTH, PACMAN_HEIGHT))
+        self.pacman2 = pygame.image.load(PACMAN2)
+        self.pacman2 = pygame.transform.scale(self.pacman2, (PACMAN_WIDTH, PACMAN_HEIGHT))
+        self.pacman3 = pygame.image.load(PACMAN3)
+        self.pacman3 = pygame.transform.scale(self.pacman3, (PACMAN_WIDTH, PACMAN_HEIGHT))
+        self.pacman4 = pygame.image.load(PACMAN4)
+        self.pacman4 = pygame.transform.scale(self.pacman4, (PACMAN_WIDTH, PACMAN_HEIGHT))
+        self.pacman5 = pygame.image.load(PACMAN5)
+        self.pacman5 = pygame.transform.scale(self.pacman5, (PACMAN_WIDTH, PACMAN_HEIGHT))
+
         self.state = STATE_HOME
         self.is_running = True
         self.clock = pygame.time.Clock()
@@ -90,9 +103,7 @@ class MyApp:
             self.score += SCORE_PENALTY + SCORE_BONUS
             self.draw_score()
             pygame.time.delay(1000)
-
-            # Thay dòng dưới bằng self.state = STATE_VICTORY
-            self.state = STATE_LEVEL
+            self.state = STATE_VICTORY
         else:
             self.state = STATE_GAMEOVER
 
@@ -153,8 +164,15 @@ class MyApp:
                 self.setting_draw()
                 self.setting_event()
             elif self.state == STATE_GAMEOVER:
-                self.gameover_draw()
+                self.gameover_draw1()
+                self.gameover_draw2()
                 self.gameover_event()
+            elif self.state == STATE_VICTORY:
+                self.victory_draw1()
+                self.victory_draw2()
+                self.victory_draw3()
+                self.victory_draw4()
+                self.victory_draw5()
             else:
                 self.is_running = False
 
@@ -185,13 +203,115 @@ class MyApp:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.is_running = False
-      
-    
-    def gameover_draw(self):
+
+
+    def victory_draw1(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.victory_background, (50, 0))
+        self.screen.blit(self.pacman1, (50, 350))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+                    self.state = STATE_HOME
+        self.mouse = pygame.mouse.get_pos()
+        if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+            self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
+        else:
+            self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
+        pygame.time.delay(100)
+        pygame.display.update()
+
+
+    def victory_draw2(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.victory_background, (50, 0))
+        self.screen.blit(self.pacman2, (125, 350))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+                    self.state = STATE_HOME
+        self.mouse = pygame.mouse.get_pos()
+        if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+            self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
+        else:
+            self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
+        pygame.time.delay(100)
+        pygame.display.update()
+
+
+    def victory_draw3(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.pacman3, (200, 350))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+                    self.state = STATE_HOME
+        self.mouse = pygame.mouse.get_pos()
+        if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+            self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
+        else:
+            self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
+        pygame.time.delay(100)
+        pygame.display.update()
+
+
+    def victory_draw4(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.victory_background, (50, 0))
+        self.screen.blit(self.pacman4, (275, 350))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+                    self.state = STATE_HOME
+        self.mouse = pygame.mouse.get_pos()
+        if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+            self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
+        else:
+            self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
+        pygame.time.delay(100)
+        pygame.display.update()
+
+
+    def victory_draw5(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.victory_background, (50, 0))
+        self.screen.blit(self.pacman5, (350, 350))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+                    self.state = STATE_HOME
+        self.mouse = pygame.mouse.get_pos()
+        if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
+            self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
+        else:
+            self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
+        pygame.time.delay(100)
+        pygame.display.update()
+
+
+    def gameover_draw1(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.gameover_background, (0, 0))
         self.screen.blit(self.coin, COIN_POS)
-        
+        pygame.time.delay(350)
+        pygame.display.update()
+
+
+    def gameover_draw2(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.gameover_background, (0, 0))
+        pygame.time.delay(350)
+
      
     def gameover_event(self):
         for event in pygame.event.get():
@@ -264,7 +384,6 @@ class MyApp:
 
     def about_draw(self):
         self.screen.fill(BLACK)
-        self.caption = pygame.display.set_caption(STATE_ABOUT)
         self.screen.blit(self.about_background, (0, 0))
         text_surf, text_rect = self.font.render("PROGRAMMERS", TOMATO)
         self.screen.blit(text_surf, (240, 100))
