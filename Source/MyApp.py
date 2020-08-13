@@ -221,7 +221,7 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
         else:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
-        pygame.time.delay(150)
+        pygame.time.delay(100)
         pygame.display.update()
 
     def victory_draw2(self):
@@ -239,13 +239,12 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
         else:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
-        pygame.time.delay(150)
+        pygame.time.delay(100)
         pygame.display.update()
 
     def victory_draw3(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.pacman3, (200, 350))
-        pygame.time.delay(150)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.is_running = False
@@ -257,6 +256,7 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
         else:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
+        pygame.time.delay(100)
         pygame.display.update()
 
     def victory_draw4(self):
@@ -274,7 +274,7 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
         else:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
-        pygame.time.delay(150)
+        pygame.time.delay(100)
         pygame.display.update()
 
     def victory_draw5(self):
@@ -292,7 +292,7 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
         else:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
-        pygame.time.delay(150)
+        pygame.time.delay(100)
         pygame.display.update()
 
     def gameover_draw1(self):
