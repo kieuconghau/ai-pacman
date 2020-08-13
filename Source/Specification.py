@@ -29,6 +29,7 @@ STATE_ABOUT = "about"
 STATE_LEVEL = "level"
 STATE_SETTING = "setting"
 STATE_GAMEOVER = "gameover"
+STATE_VICTORY = 'victoty'
 
 
 # Home screen

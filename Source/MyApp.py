@@ -85,11 +85,9 @@ class MyApp:
             pacman.move(goal)
             self.score += SCORE_BONUS
             self.draw_score()
+            self.state = STATE_VICTORY
         else:
             self.state = STATE_GAMEOVER
-
-        pygame.time.delay(1000)
-        self.state = STATE_LEVEL
 
 
     def level_2(self):
@@ -99,7 +97,7 @@ class MyApp:
         There is still one food in the map and Pac-man know its position.
         """
         pygame.time.delay(1000)
-        self.state = STATE_LEVEL
+        self.state = STATE_GAMEOVER
 
     def level_3(self):
         """
@@ -110,7 +108,7 @@ class MyApp:
         Each step Pacman go, each step Monsters move.
         """
         pygame.time.delay(1000)
-        self.state = STATE_LEVEL
+        self.state = STATE_GAMEOVER
 
     def level_4(self):
         """
@@ -123,7 +121,7 @@ class MyApp:
         The food is so many.
         """
         pygame.time.delay(1000)
-        self.state = STATE_LEVEL
+        self.state = STATE_GAMEOVER
 
 
     def run(self):
