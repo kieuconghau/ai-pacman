@@ -44,7 +44,7 @@ class MyApp:
         self.pacman5 = pygame.image.load(PACMAN5)
         self.pacman5 = pygame.transform.scale(self.pacman5, (PACMAN_WIDTH, PACMAN_HEIGHT))
 
-        self.state = STATE_VICTORY
+        self.state = STATE_HOME
         self.is_running = True
         self.clock = pygame.time.Clock()
         self.mouse = None
@@ -103,9 +103,7 @@ class MyApp:
             self.score += SCORE_PENALTY + SCORE_BONUS
             self.draw_score()
             pygame.time.delay(1000)
-
-            # Thay dòng dưới bằng self.state = STATE_VICTORY
-            self.state = STATE_LEVEL
+            self.state = STATE_VICTORY
         else:
             self.state = STATE_GAMEOVER
 
@@ -205,7 +203,8 @@ class MyApp:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.is_running = False
-      
+
+
     def victory_draw1(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.victory_background, (50, 0))
@@ -223,6 +222,7 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
         pygame.time.delay(100)
         pygame.display.update()
+
 
     def victory_draw2(self):
         self.screen.fill(BLACK)
@@ -242,6 +242,7 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
+
     def victory_draw3(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.pacman3, (200, 350))
@@ -258,6 +259,7 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
         pygame.time.delay(100)
         pygame.display.update()
+
 
     def victory_draw4(self):
         self.screen.fill(BLACK)
@@ -277,6 +279,7 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
+
     def victory_draw5(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.victory_background, (50, 0))
@@ -295,12 +298,15 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
+
     def gameover_draw1(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.gameover_background, (0, 0))
         self.screen.blit(self.coin, COIN_POS)
         pygame.time.delay(350)
         pygame.display.update()
+
+
     def gameover_draw2(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.gameover_background, (0, 0))
@@ -378,7 +384,6 @@ class MyApp:
 
     def about_draw(self):
         self.screen.fill(BLACK)
-        self.caption = pygame.display.set_caption(STATE_ABOUT)
         self.screen.blit(self.about_background, (0, 0))
         text_surf, text_rect = self.font.render("PROGRAMMERS", TOMATO)
         self.screen.blit(text_surf, (240, 100))
