@@ -8,7 +8,7 @@ class Pacman:
         self.grid_pos = [pos[0], pos[1]]
         self.pixel_pos = self.get_current_pixel_pos()
         self.color = YELLOW
-        self.radius = CELL_SIZE // 2 - 1
+        self.radius = CELL_SIZE // 2
 
     def appear(self):
         """
