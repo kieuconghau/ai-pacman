@@ -19,6 +19,7 @@ MAP_NUM = len(MAP_IMG)
 HOME_BACKGROUND = r"../Assets/home_bg.png"
 ABOUT_BACKGROUND = r"../Assets/about_bg.png"
 GAMEOVER_BACKGROUND = r"../Assets/gameover_bg.png"
+VICTORY_BACKGROUND = r"../Assets/victory.jpg"
 
 # Image
 COIN_IMAGE = r"../Assets/coin.jpg"
@@ -29,7 +30,7 @@ STATE_ABOUT = "about"
 STATE_LEVEL = "level"
 STATE_SETTING = "setting"
 STATE_GAMEOVER = "gameover"
-STATE_VICTORY = 'victoty'
+STATE_VICTORY = 'victory'
 
 
 # Home screen
@@ -77,6 +78,14 @@ COIN_POS = (200, 430)
 COIN_WIDTH, COIN_HEIGHT = (200, 200)
 GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT = HOME_BG_WIDTH, HOME_BG_HEIGHT + 300
 
+# Victory screen
+PACMAN1 = r"../Assets/pacman1.png"
+PACMAN2 = r"../Assets/pacman2.png"
+PACMAN3 = r"../Assets/pacman3.png"
+PACMAN4 = r"../Assets/pacman4.png"
+PACMAN5 = r"../Assets/pacman5.png"
+VICTORY_WIDTH, VICTORY_HEIGHT = (500, 400)
+PACMAN_WIDTH, PACMAN_HEIGHT = (500, 280)
 
 # Score
 SCORE_BONUS = 20
