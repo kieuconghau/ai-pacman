@@ -27,7 +27,10 @@ class MyApp:
         self.about_background = pygame.image.load(ABOUT_BACKGROUND)
         self.about_background = pygame.transform.scale(self.about_background, (APP_WIDTH, APP_HEIGHT))
         self.level_background = self.home_background
-
+        self.gameover_background = pygame.image.load(GAMEOVER_BACKGROUND)
+        self.gameover_background = pygame.transform.scale(self.gameover_background, (GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT))
+        self.coin = pygame.image.load(COIN_IMAGE)
+        self.coin = pygame.transform.scale(self.coin, (COIN_WIDTH, COIN_HEIGHT))
         self.state = STATE_HOME
         self.is_running = True
         self.clock = pygame.time.Clock()
@@ -83,8 +86,7 @@ class MyApp:
             self.score += SCORE_BONUS
             self.draw_score()
         else:
-            self.game_over()
-            pass
+            self.state = STATE_GAMEOVER
 
         pygame.time.delay(1000)
         self.state = STATE_LEVEL
@@ -145,6 +147,9 @@ class MyApp:
             elif self.state == STATE_SETTING:
                 self.setting_draw()
                 self.setting_event()
+            elif self.state == STATE_GAMEOVER:
+                self.gameover_draw()
+                self.gameover_event()
             else:
                 self.is_running = False
 
@@ -180,6 +185,24 @@ class MyApp:
         """
         # Code here
         pass
+      
+    
+    def gameover_draw(self):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.gameover_background,(0,0))
+        self.screen.blit(self.coin, COIN_POS)
+        
+     
+    def gameover_event(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if(200<=self.mouse[0]<=400 and 430<=self.mouse[1]<=630):
+                    self.state = STATE_HOME
+        self.mouse = pygame.mouse.get_pos()
+
+        pygame.display.update()
 
 
     def victory(self):
