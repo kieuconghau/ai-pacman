@@ -15,7 +15,6 @@ class Pacman:
         Make the Pacman appear on the screen.
         """
         self.draw(self.color)
-        pygame.display.update()
 
 
     def move(self, new_grid_pos):
@@ -27,7 +26,6 @@ class Pacman:
         self.update(new_grid_pos)
         self.pixel_pos = self.get_current_pixel_pos()
         self.draw(self.color)
-        pygame.display.update()
     ####################################################################################################################
 
 
