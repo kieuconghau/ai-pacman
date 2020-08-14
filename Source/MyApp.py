@@ -199,6 +199,7 @@ class MyApp:
         pacman = Pacman.Pacman(self, pacman_cell.pos)
         pacman.appear()
 
+        pacman_is_caught = False
         while True:
             # Pacman moves.
             pacman_cell.pacman_leave()
@@ -212,7 +213,10 @@ class MyApp:
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
+                    pacman_is_caught = True
                     break
+            if pacman_is_caught:
+                break
 
             # Pacman ate a Food?
             pre_food_list_len = len(food_list)
@@ -249,7 +253,10 @@ class MyApp:
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
+                    pacman_is_caught = True
                     break
+            if pacman_is_caught:
+                break
 
             # Pacman ate all of Foods?
             if len(food_list) == 0:
@@ -290,6 +297,7 @@ class MyApp:
         pacman = Pacman.Pacman(self, pacman_cell.pos)
         pacman.appear()
 
+        pacman_is_caught = False
         while True:
             # Pacman moves.
             pacman_cell.pacman_leave()
@@ -297,13 +305,16 @@ class MyApp:
             pacman_cell.pacman_come()
 
             pacman.move(pacman_cell.pos)
-            self.score += SCORE_PENALTY
+            self.update_score(SCORE_PENALTY)
 
             # Monster catch Pacman :( ?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
+                    pacman_is_caught = True
                     break
+            if pacman_is_caught:
+                break
 
             # Pacman ate a Food :) ?
             pre_food_list_len = len(food_list)
@@ -312,10 +323,7 @@ class MyApp:
                     food_list.remove(food)
 
             if pre_food_list_len != len(food_list):
-                self.score += SCORE_BONUS
-
-            # Graphic: update score.
-            self.draw_score()
+                self.update_score(SCORE_BONUS)
 
             # Monsters move.
             for monster in monster_list:
@@ -337,7 +345,10 @@ class MyApp:
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
+                    pacman_is_caught = True
                     break
+            if pacman_is_caught:
+                break
 
             # Pacman ate all of Foods?
             if len(food_list) == 0:
