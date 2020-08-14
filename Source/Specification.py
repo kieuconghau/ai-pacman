@@ -8,26 +8,25 @@ FPS = 60
 
 
 # Map
-MAP_IMG = [r"../Assets/map_1.png",
-           r"../Assets/map_2.png",
-           r"../Assets/map_3.png",
-           r"../Assets/map_4.png",
-           r"../Assets/map_5.png"]
-MAP_INPUT_TXT = [[r"../Assets/level_1/map_1.txt", r"../Assets/level_1/map_2.txt", r"../Assets/level_1/map_3.txt", r"../Assets/level_1/map_4.txt", r"../Assets/level_1/map_5.txt"],
-                 [r"../Assets/level_2/map_1.txt", r"../Assets/level_2/map_2.txt", r"../Assets/level_2/map_3.txt", r"../Assets/level_2/map_4.txt", r"../Assets/level_2/map_5.txt"],
-                 [r"../Assets/level_3/map_1.txt", r"../Assets/level_3/map_2.txt", r"../Assets/level_3/map_3.txt", r"../Assets/level_3/map_4.txt", r"../Assets/level_3/map_5.txt"],
-                 [r"../Assets/level_4/map_1.txt", r"../Assets/level_4/map_2.txt", r"../Assets/level_4/map_3.txt", r"../Assets/level_4/map_4.txt", r"../Assets/level_4/map_5.txt"]]
+MAP_IMG = [r"../Assets/maps/map_1.png",
+           r"../Assets/maps/map_2.png",
+           r"../Assets/maps/map_3.png",
+           r"../Assets/maps/map_4.png",
+           r"../Assets/maps/map_5.png"]
+MAP_INPUT_TXT = [[r"../Assets/levels/level_1/map_1.txt", r"../Assets/levels/level_1/map_2.txt", r"../Assets/levels/level_1/map_3.txt", r"../Assets/levels/level_1/map_4.txt", r"../Assets/levels/level_1/map_5.txt"],
+                 [r"../Assets/levels/level_2/map_1.txt", r"../Assets/levels/level_2/map_2.txt", r"../Assets/levels/level_2/map_3.txt", r"../Assets/levels/level_2/map_4.txt", r"../Assets/levels/level_2/map_5.txt"],
+                 [r"../Assets/levels/level_3/map_1.txt", r"../Assets/levels/level_3/map_2.txt", r"../Assets/levels/level_3/map_3.txt", r"../Assets/levels/level_3/map_4.txt", r"../Assets/levels/level_3/map_5.txt"],
+                 [r"../Assets/levels/level_4/map_1.txt", r"../Assets/levels/level_4/map_2.txt", r"../Assets/levels/level_4/map_3.txt", r"../Assets/levels/level_4/map_4.txt", r"../Assets/levels/level_4/map_5.txt"]]
 MAP_NUM = len(MAP_IMG)
 
 
 # Background
-HOME_BACKGROUND = r"../Assets/home_bg.png"
-ABOUT_BACKGROUND = r"../Assets/about_bg.png"
-GAMEOVER_BACKGROUND = r"../Assets/gameover_bg.png"
-VICTORY_BACKGROUND = r"../Assets/victory.jpg"
+HOME_BACKGROUND = r"../Assets/bg/home_bg.png"
+ABOUT_BACKGROUND = r"../Assets/bg/about_bg.png"
+GAMEOVER_BACKGROUND = r"../Assets/bg/gameover_bg.png"
+VICTORY_BACKGROUND = r"../Assets/bg/victory_bg.jpg"
 
-# Image
-COIN_IMAGE = r"../Assets/coin.jpg"
+
 # Screen state
 STATE_HOME = "home"
 STATE_PLAYING = "playing"
@@ -79,18 +78,23 @@ SPEED = 100
 
 
 # Gameover screen
+COIN_IMAGE = r"../Assets/effects/coin.jpg"
+
 COIN_POS = (200, 430)
 COIN_WIDTH, COIN_HEIGHT = (200, 200)
 GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT = HOME_BG_WIDTH, HOME_BG_HEIGHT + 300
 
+
 # Victory screen
-PACMAN1 = r"../Assets/pacman1.png"
-PACMAN2 = r"../Assets/pacman2.png"
-PACMAN3 = r"../Assets/pacman3.png"
-PACMAN4 = r"../Assets/pacman4.png"
-PACMAN5 = r"../Assets/pacman5.png"
+PACMAN1 = r"../Assets/effects/pacman1.png"
+PACMAN2 = r"../Assets/effects/pacman2.png"
+PACMAN3 = r"../Assets/effects/pacman3.png"
+PACMAN4 = r"../Assets/effects/pacman4.png"
+PACMAN5 = r"../Assets/effects/pacman5.png"
+
 VICTORY_WIDTH, VICTORY_HEIGHT = (500, 400)
 PACMAN_WIDTH, PACMAN_HEIGHT = (500, 280)
+
 
 # Score
 SCORE_BONUS = 20
