@@ -12,9 +12,6 @@ class Cell:
         self.visited = 0
         self.state = state
 
-    def visisted(self):
-        self.visited += 1
-
     def exist_food(self):
         return cState.FOOD in self.state
 
@@ -42,62 +39,96 @@ class Cell:
         if cState.FOOD in self.state:
             self.state.remove(cState.FOOD)
 
-def heuristic(cells, graph_map, remembered, cur, maxDepth):
+        self.visited += 1
+
+    def function(self):
+        return self.heuristic - self.visited
+
+def heuristic(cells, graph_map, remembered, start, cur, maxDepth):
     remembered.append(cur.pos)
 
     if maxDepth <= 0:
         return
 
-    for child in graph_map(cur):
+    for child in graph_map[cur]:
         if child.pos not in remembered:
-            child.reset_heuristic()
 
             sub_remembered = []
-
             if child.exist_food():
-                update_heuristic(cells, graph_map, sub_remembered, child, 2, "food")
+                update_heuristic(cells, graph_map, sub_remembered, start, child, 2, "food")
 
+            sub_remembered = []
             if child.exist_monster():
-                update_heuristic(cells, graph_map, sub_remembered, child, 2, "monster")
+                update_heuristic(cells, graph_map, sub_remembered, start, child, 2, "monster")
 
-            heuristic(cells, graph_map, remembered.copy(), child, maxDepth - 1)
+            heuristic(cells, graph_map, remembered.copy(), start, child, maxDepth - 1)
 
     cur.heuristic -= cur.visited
 
-
-def update_heuristic(cells, graph_map, remembered, cur, maxDepth, type):
+def clear_heuristic(cells, graph_map, remembered, cur, maxDepth):
     remembered.append(cur.pos)
+
     if maxDepth <= 0:
+        return
+
+    for child in graph_map[cur]:
+        if child.pos not in remembered:
+            child.reset_heuristic()
+
+            clear_heuristic(cells, graph_map, remembered.copy(), child, maxDepth - 1)
+
+
+def update_heuristic(cells, graph_map, remembered, start, cur, maxDepth, type):
+    remembered.append(cur.pos)
+
+    if maxDepth < 0:
+        return
+
+    if cur.pos == start.pos:
         return
 
     if type == "food":
         food = 0
-        if maxDepth == 2: food = 15
+        if maxDepth == 2: food = 35
         if maxDepth == 1: food = 10
         if maxDepth == 0: food = 5
+
+        print(cur.pos)
+        print(cur.heuristic, "+" , food, "=",)
+
         cur.heuristic += food
+
+        print(cur.heuristic)
 
     if type == "monster":
         monster = 0
         if maxDepth == 2: monster = float("-inf")
-        if maxDepth == 1: monster = -50
-        if maxDepth == 0: monster = -25
+        if maxDepth == 1: monster = -100
+        if maxDepth == 0: monster = -50
         cur.heuristc += monster
 
-    for child in graph_map(cur):
+
+    for child in graph_map[cur]:
         if child.pos not in remembered:
-            update_heuristic(cells, graph_map, remembered.copy(), child, maxDepth - 1, type)
+            update_heuristic(cells, graph_map, remembered.copy(), start, child, maxDepth - 1, type)
 
 
 def local_search(cells, graph_map, pacman_pos):
     remembered = []
-    heuristic(cells, graph_map, remembered, pacman_pos, 3)
+    clear_heuristic(cells, graph_map, remembered, pacman_pos, 3)
+
+    remembered = []
+    heuristic(cells, graph_map, remembered, pacman_pos, pacman_pos, 3)
 
     max = float("-inf")
     next_step = None
-    for child in graph_map(pacman_pos):
-        if max < child.heuristic:
-            max = child.heuristic
+
+    print(pacman_pos.pos)
+    for child in graph_map[pacman_pos]:
+
+        print(child.function())
+        if max < child.function():
+            max = child.function()
             next_step = child
 
-    return child
+    return next_step

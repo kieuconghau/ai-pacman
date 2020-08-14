@@ -207,12 +207,25 @@ class MyApp:
 
             self.score += SCORE_PENALTY
 
+            """
             if pacman_pos.pos in food_pos:
-                foods.pop(pacman_pos.pos)
+                food_pos.remove(pacman_pos.pos)
                 self.score += SCORE_BONUS
+                self.draw_score()  
+            """
 
-            pacman.draw(pacman_pos.pos)
-            self.draw_score()
+            pre_foods_len = len(foods)
+            foods = [pos for pos in foods if pos != pacman_pos.pos]
+            if pre_foods_len != len(foods):
+                self.score += SCORE_BONUS
+                self.draw_score()
+
+            pacman.move(pacman_pos.pos)
+            pygame.time.delay(SPEED)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.is_running = False
 
 
         pygame.time.delay(1000)
