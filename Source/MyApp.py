@@ -58,8 +58,7 @@ class MyApp:
         Launch the Pacman game with the corresponding level and map.
         """
         pygame.display.update()
-        self.score = 0
-        self.draw_score()
+        self.update_score(0)
 
         if self.current_level == 1:
             self.level_1()
@@ -93,8 +92,7 @@ class MyApp:
 
             for cell in path:
                 pacman.move(cell)
-                self.score += SCORE_PENALTY
-                self.draw_score()
+                self.update_score(SCORE_PENALTY)
                 pygame.time.delay(SPEED)
 
                 for event in pygame.event.get():
@@ -102,8 +100,7 @@ class MyApp:
                         self.is_running = False
 
             pacman.move(goal)
-            self.score += SCORE_PENALTY + SCORE_BONUS
-            self.draw_score()
+            self.update_score(SCORE_PENALTY + SCORE_BONUS)
             self.state = STATE_VICTORY
         else:
             self.state = STATE_GAMEOVER
@@ -146,8 +143,7 @@ class MyApp:
 
                 for cell in path:
                     pacman.move(cell)
-                    self.score += SCORE_PENALTY
-                    self.draw_score()
+                    self.update_score(SCORE_PENALTY)
 
                     if cell in monster_pos_list:
                         break
@@ -167,8 +163,7 @@ class MyApp:
 
             for cell in path:
                 pacman.move(cell)
-                self.score += SCORE_PENALTY
-                self.draw_score()
+                self.update_score(SCORE_PENALTY)
                 pygame.time.delay(SPEED)
 
                 for event in pygame.event.get():
@@ -176,8 +171,7 @@ class MyApp:
                         self.is_running = False
 
             pacman.move(goal)
-            self.score += SCORE_PENALTY + SCORE_BONUS
-            self.draw_score()
+            self.update_score(SCORE_PENALTY + SCORE_BONUS)
             self.state = STATE_VICTORY
 
         pygame.time.delay(1000)
@@ -212,7 +206,7 @@ class MyApp:
             pacman_cell.pacman_come()
 
             pacman.move(pacman_cell.pos)
-            self.score += SCORE_PENALTY
+            self.update_score(SCORE_PENALTY)
 
             # Pacman passed a Monster?
             for monster in monster_list:
@@ -227,10 +221,8 @@ class MyApp:
                     food_list.remove(food)
 
             if pre_food_list_len != len(food_list):
-                self.score += SCORE_BONUS
+                self.update_score(SCORE_BONUS)
 
-            # Graphic: update score.
-            self.draw_score()
 
             # Monsters move.
             for monster in monster_list:
@@ -471,16 +463,23 @@ class MyApp:
         pygame.display.update()
 
 
-    def draw_score(self):
+    def update_score(self, achived_score):
         """
-        Display the current score.
+        Add 'achived_score' to the current score and display onto the screen.
         """
         text_surf, text_rect = self.font.render("SCORES: " + str(self.score), WHITE)
-
         text_rect[0] = SCORE_POS[0]
         text_rect[1] = SCORE_POS[1]
-
         pygame.draw.rect(self.screen, BLACK, text_rect)
+        pygame.display.update(text_rect)
+
+        self.score += achived_score
+
+        text_surf, text_rect = self.font.render("SCORES: " + str(self.score), WHITE)
+        text_rect[0] = SCORE_POS[0]
+        text_rect[1] = SCORE_POS[1]
+        pygame.draw.rect(self.screen, BLACK, text_rect)
+
         self.screen.blit(text_surf, SCORE_POS)
         pygame.display.update(text_rect)
 
