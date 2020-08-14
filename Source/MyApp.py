@@ -68,6 +68,8 @@ class MyApp:
             self.level_3()
         elif self.current_level == 4:
             self.level_4()
+        elif self.current_level == 5:
+            self.level_5()
 
 
     def level_1(self):
@@ -177,7 +179,6 @@ class MyApp:
         pygame.time.delay(1000)
 
 
-
     def level_3(self):
         """
         Level 3: Pac-man cannot see the foods if they are outside Pacman’s nearest threestep.
@@ -236,7 +237,7 @@ class MyApp:
 
                 next_cell = monster.initial_cell
                 if monster.cell.pos == monster.initial_cell.pos:
-                    around_cell_list = monster.get_around_cells(graph_map)
+                    around_cell_list = monster.get_around_cells_of_initial_cell(graph_map)
                     next_cell_index = random.randint(0, len(around_cell_list) - 1)
                     next_cell = around_cell_list[next_cell_index]
                 monster.cell = next_cell
@@ -335,6 +336,99 @@ class MyApp:
                 monster.cell = next_cell
 
                 monster.cell.monster_come()
+                monster.move(monster.cell.pos)
+
+                if old_cell.exist_food():
+                    temp_food = Food.Food(self, old_cell.pos, old_cell)
+                    temp_food.appear()
+
+            # Pacman passed a Monster?
+            for monster in monster_list:
+                if pacman_cell.pos == monster.cell.pos:
+                    self.state = STATE_GAMEOVER
+                    pacman_is_caught = True
+                    break
+            if pacman_is_caught:
+                break
+
+            # Pacman ate all of Foods?
+            if len(food_list) == 0:
+                self.state = STATE_VICTORY
+                break
+
+            # Graphic: "while True" handling.
+            pygame.time.delay(SPEED)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+        pygame.time.delay(1000)
+
+
+    def level_5(self):
+        """
+        Level 5: Pac-man cannot see the foods if they are outside Pacman’s nearest threestep.
+        It means that Pac-man just only scan all the adjacent him (8 tiles x 3).
+        There are many foods in the map.
+        Monsters just move one step in any valid direction.
+        Each step Pacman go, each step Monsters move.
+        """
+        cells, graph_map, pacman_cell, food_cell_list, monster_cell_list = Map.read_map_level_3(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
+
+        food_list = [Food.Food(self, food_cell.pos, food_cell) for food_cell in food_cell_list]
+        for food in food_list:
+            food.appear()
+
+        monster_list = [Monster.Monster(self, monster_cell.pos, monster_cell) for monster_cell in monster_cell_list]
+        for monster in monster_list:
+            monster.appear()
+
+        pacman = Pacman.Pacman(self, pacman_cell.pos)
+        pacman.appear()
+
+        pacman_is_caught = False
+        while True:
+            # Pacman moves.
+            pacman_cell.pacman_leave()
+            pacman_cell = HeuristicLocalSearch.local_search(cells, graph_map, pacman_cell)
+            pacman_cell.pacman_come()
+
+            pacman.move(pacman_cell.pos)
+            self.update_score(SCORE_PENALTY)
+
+            # Pacman passed a Monster?
+            for monster in monster_list:
+                if pacman_cell.pos == monster.cell.pos:
+                    self.state = STATE_GAMEOVER
+                    pacman_is_caught = True
+                    break
+            if pacman_is_caught:
+                break
+
+            # Pacman ate a Food?
+            pre_food_list_len = len(food_list)
+            for food in food_list:
+                if food.cell.pos == pacman_cell.pos:
+                    food_list.remove(food)
+
+            if pre_food_list_len != len(food_list):
+                self.update_score(SCORE_BONUS)
+
+
+            # Monsters move.
+            for monster in monster_list:
+                old_cell = monster.cell
+
+                monster.cell.monster_leave()
+
+                around_cell_list = monster.get_around_cells(graph_map)
+                next_cell_index = random.randint(0, len(around_cell_list) - 1)
+                next_cell = around_cell_list[next_cell_index]
+                monster.cell = next_cell
+
+                monster.cell.monster_come()
+
                 monster.move(monster.cell.pos)
 
                 if old_cell.exist_food():
