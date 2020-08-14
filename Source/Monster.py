@@ -21,6 +21,7 @@ class Monster:
         """
         self.draw(self.color)
 
+
     def move(self, new_grid_pos):
         """
         Move the Monster to the new position (x, y) on the grid map.
@@ -30,8 +31,13 @@ class Monster:
         self.update(new_grid_pos)
         self.draw(self.color)
 
-    def get_around_cells(self, graph_map):
+
+    def get_around_cells_of_initial_cell(self, graph_map):
         return graph_map[self.initial_cell]
+
+
+    def get_around_cells(self, graph_map):
+        return graph_map[self.cell]
 
     ####################################################################################################################
 
