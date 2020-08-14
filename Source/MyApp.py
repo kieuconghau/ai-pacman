@@ -214,6 +214,12 @@ class MyApp:
             pacman.move(pacman_cell.pos)
             self.score += SCORE_PENALTY
 
+            # Pacman passed a Monster?
+            for monster in monster_list:
+                if pacman_cell.pos == monster.cell.pos:
+                    self.state = STATE_GAMEOVER
+                    break
+
             # Pacman ate a Food?
             pre_food_list_len = len(food_list)
             for food in food_list:
@@ -246,6 +252,12 @@ class MyApp:
                 if old_cell.exist_food():
                     temp_food = Food.Food(self, old_cell.pos, old_cell)
                     temp_food.appear()
+
+            # Pacman passed a Monster?
+            for monster in monster_list:
+                if pacman_cell.pos == monster.cell.pos:
+                    self.state = STATE_GAMEOVER
+                    break
 
             # Pacman ate all of Foods?
             if len(food_list) == 0:
