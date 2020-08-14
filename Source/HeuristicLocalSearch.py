@@ -44,7 +44,7 @@ class Cell:
     def function(self):
         return self.heuristic - self.visited
 
-def heuristic(cells, graph_map, remembered, start, cur, maxDepth):
+def calc_heuristic(cells, graph_map, remembered, start, cur, maxDepth):
     remembered.append(cur.pos)
 
     if maxDepth <= 0:
@@ -61,7 +61,7 @@ def heuristic(cells, graph_map, remembered, start, cur, maxDepth):
             if child.exist_monster():
                 update_heuristic(cells, graph_map, sub_remembered, start, child, 2, "monster")
 
-            heuristic(cells, graph_map, remembered.copy(), start, child, maxDepth - 1)
+            calc_heuristic(cells, graph_map, remembered.copy(), start, child, maxDepth - 1)
 
     cur.heuristic -= cur.visited
 
@@ -92,20 +92,14 @@ def update_heuristic(cells, graph_map, remembered, start, cur, maxDepth, type):
         if maxDepth == 2: food = 35
         if maxDepth == 1: food = 10
         if maxDepth == 0: food = 5
-
-        print(cur.pos)
-        print(cur.heuristic, "+" , food, "=",)
-
         cur.heuristic += food
-
-        print(cur.heuristic)
 
     if type == "monster":
         monster = 0
         if maxDepth == 2: monster = float("-inf")
         if maxDepth == 1: monster = -100
         if maxDepth == 0: monster = -50
-        cur.heuristc += monster
+        cur.heuristic += monster
 
 
     for child in graph_map[cur]:
@@ -118,17 +112,14 @@ def local_search(cells, graph_map, pacman_pos):
     clear_heuristic(cells, graph_map, remembered, pacman_pos, 3)
 
     remembered = []
-    heuristic(cells, graph_map, remembered, pacman_pos, pacman_pos, 3)
+    calc_heuristic(cells, graph_map, remembered, pacman_pos, pacman_pos, 3)
 
-    max = float("-inf")
+    max_f = float("-inf")
     next_step = None
 
-    print(pacman_pos.pos)
     for child in graph_map[pacman_pos]:
-
-        print(child.function())
-        if max < child.function():
-            max = child.function()
+        if max_f < child.function():
+            max_f = child.function()
             next_step = child
 
     return next_step

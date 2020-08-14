@@ -1,5 +1,6 @@
 import sys
 import pygame.freetype
+import random
 import Pacman
 import Food
 import Monster
@@ -191,45 +192,74 @@ class MyApp:
         Monsters just move one step in any valid direction (if any) around the initial location at the start of the game.
         Each step Pacman go, each step Monsters move.
         """
-        cells, graph_map, pacman_pos, food_pos = Map.read_map_level_3(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
+        cells, graph_map, pacman_cell, food_cell_list, monster_cell_list = Map.read_map_level_3(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
 
-        foods = [Food.Food(self, pos) for pos in food_pos]
-        for food in foods:
+        food_list = [Food.Food(self, food_cell.pos, food_cell) for food_cell in food_cell_list]
+        for food in food_list:
             food.appear()
 
-        pacman = Pacman.Pacman(self, pacman_pos.pos)
+        monster_list = [Monster.Monster(self, monster_cell.pos, monster_cell) for monster_cell in monster_cell_list]
+        for monster in monster_list:
+            monster.appear()
+
+        pacman = Pacman.Pacman(self, pacman_cell.pos)
         pacman.appear()
 
         while True:
-            pacman_pos.pacman_leave()
-            pacman_pos = HeuristicLocalSearch.local_search(cells, graph_map, pacman_pos)
-            pacman_pos.pacman_come()
+            # Pacman moves.
+            pacman_cell.pacman_leave()
+            pacman_cell = HeuristicLocalSearch.local_search(cells, graph_map, pacman_cell)
+            pacman_cell.pacman_come()
 
+            pacman.move(pacman_cell.pos)
             self.score += SCORE_PENALTY
 
-            """
-            if pacman_pos.pos in food_pos:
-                food_pos.remove(pacman_pos.pos)
-                self.score += SCORE_BONUS
-                self.draw_score()  
-            """
+            # Pacman ate a Food?
+            pre_food_list_len = len(food_list)
+            for food in food_list:
+                if food.cell.pos == pacman_cell.pos:
+                    food_list.remove(food)
 
-            pre_foods_len = len(foods)
-            foods = [pos for pos in foods if pos != pacman_pos.pos]
-            if pre_foods_len != len(foods):
+            if pre_food_list_len != len(food_list):
                 self.score += SCORE_BONUS
-                self.draw_score()
 
-            pacman.move(pacman_pos.pos)
+            # Graphic: update score.
+            self.draw_score()
+
+            # Monsters move.
+            for monster in monster_list:
+                old_cell = monster.cell
+
+                monster.cell.monster_leave()
+
+                next_cell = monster.initial_cell
+                if monster.cell.pos == monster.initial_cell.pos:
+                    around_cell_list = monster.get_around_cells(graph_map)
+                    next_cell_index = random.randint(0, len(around_cell_list) - 1)
+                    next_cell = around_cell_list[next_cell_index]
+                monster.cell = next_cell
+
+                monster.cell.monster_come()
+
+                monster.move(monster.cell.pos)
+
+                if old_cell.exist_food():
+                    temp_food = Food.Food(self, old_cell.pos, old_cell)
+                    temp_food.appear()
+
+            # Pacman ate all of Foods?
+            if len(food_list) == 0:
+                self.state = STATE_VICTORY
+                break
+
+            # Graphic: "while True" handling.
             pygame.time.delay(SPEED)
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.is_running = False
-
+                    pygame.quit()
+                    sys.exit()
 
         pygame.time.delay(1000)
-        self.state = STATE_GAMEOVER
 
 
     def level_4(self):

@@ -76,7 +76,8 @@ def read_map_level_3(map_input_path):
     pacman_pos, raw_map = input_raw(map_input_path)
 
     cells = []
-    food_pos = []
+    food_cell_list = []
+    monster_cell_list = []
 
     for y in range(len(raw_map)):
         row = []
@@ -87,14 +88,11 @@ def read_map_level_3(map_input_path):
                     row.append(Cell((x, y), []))
 
                 else:
-                    if raw_map[y][x] == 2:
-                        food_pos.append((x, y))
-
                     row.append(Cell((x, y), [cState(raw_map[y][x])]))
 
                 if pacman_pos == (x, y):
                     row[x].state.append(cState(4))
-                    pacman_pos = row[x]
+                    pacman_cell = row[x]
 
             else:
                 row.append(None)
@@ -107,6 +105,12 @@ def read_map_level_3(map_input_path):
         for x in range(len(raw_map[y])):
             if raw_map[y][x] != 1:
                 cur = cells[y][x]
+
+                if cState.MONSTER in cur.state:
+                    monster_cell_list.append(cur)
+                elif cState.FOOD in cur.state:
+                    food_cell_list.append(cur)
+
                 graph_map[cur] = []
 
                 if x - 1 >= 0 and raw_map[y][x - 1] != 1:
@@ -119,4 +123,4 @@ def read_map_level_3(map_input_path):
                     graph_map[up] = graph_map[up] + [cur]
                     graph_map[cur] = graph_map[cur] + [up]
 
-    return cells, graph_map, pacman_pos, food_pos
+    return cells, graph_map, pacman_cell, food_cell_list, monster_cell_list
