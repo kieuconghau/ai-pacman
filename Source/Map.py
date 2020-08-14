@@ -142,9 +142,9 @@ def read_map_level_4(map_input_path):
                 c_cur = cells[y][x]
                 cur = (x, y)
 
-                if cState.MONSTER in cur.state:
+                if cState.MONSTER in c_cur.state:
                     monster_cell_list.append(c_cur)
-                elif cState.FOOD in cur.state:
+                elif cState.FOOD in c_cur.state:
                     food_cell_list.append(c_cur)
 
                 graph_cell[c_cur] = []
