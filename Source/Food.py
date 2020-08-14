@@ -8,7 +8,7 @@ class Food:
         self.grid_pos = [pos[0], pos[1]]
         self.pixel_pos = self.get_current_pixel_pos()
         self.color = GREEN
-        self.radius = CELL_SIZE // 3
+        self.radius = int(CELL_SIZE // 5)
 
     def appear(self):
         """

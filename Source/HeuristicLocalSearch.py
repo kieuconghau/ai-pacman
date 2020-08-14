@@ -114,7 +114,7 @@ def update_heuristic(cells, graph_map, remembered, start, cur, maxDepth, type):
 
 
 def local_search(cells, graph_map, pacman_pos):
-    remembered = []
+    remembered = [] 
     clear_heuristic(cells, graph_map, remembered, pacman_pos, 3)
 
     remembered = []
