@@ -117,3 +117,20 @@ RED = (255, 0, 0)
 TOMATO = (255, 99, 71)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
+
+
+# Pacman, Food, Monster animations
+FOOD_IMAGE = r"../Assets/effects/food.png"
+
+PACMAN_IMAGE = r"../Assets/effects/pacman.png"
+PACMAN_LEFT = r"../Assets/effects/pacman_left.png"
+PACMAN_RIGHT = r"../Assets/effects/pacman_right.png"
+PACMAN_DOWN = r"../Assets/effects/pacman_down.png"
+PACMAN_UP = r"../Assets/effects/pacman_up.png"
+
+BLACK_BG = r"../Assets/effects/bg.png"
+
+MONSTER_LEFT_IMAGE = r"../Assets/effects/ghost left.png"
+MONSTER_RIGHT_IMAGE = r"../Assets/effects/ghost right.png"
+MONSTER_UP_IMAGE = r"../Assets/effects/ghost up.png"
+MONSTER_DOWN_IMAGE = r"../Assets/effects/ghost down.png"
