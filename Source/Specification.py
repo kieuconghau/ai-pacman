@@ -115,3 +115,16 @@ RED = (255, 0, 0)
 TOMATO = (255, 99, 71)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
+
+FOOD = r"../Assets/effects/food.png"
+
+OM_UP = r"../Assets/effects/open mouth up.png"
+OM_DOWN = r"../Assets/effects/open mouth down.png"
+OM_LEFT = r"../Assets/effects/open mouth left.png"
+OM_RIGHT = r"../Assets/effects/open mouth right.png"
+CM_UP = r"../Assets/effects/close mouth up.png"
+CM_DOWN = r"../Assets/effects/close mouth down.png"
+CM_LEFT = r"../Assets/effects/close mouth left.png"
+CM_RIGHT = r"../Assets/effects/close mouth right.png"
+
+BLACK_BG = r"../Assets/effects/bg.png"
