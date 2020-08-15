@@ -99,7 +99,8 @@ class MyApp:
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        self.is_running = False
+                        pygame.quit()
+                        sys.exit()
 
             pacman.move(goal)
             self.update_score(SCORE_PENALTY + SCORE_BONUS)
@@ -154,7 +155,8 @@ class MyApp:
 
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
-                            self.is_running = False
+                            pygame.quit()
+                            sys.exit()
 
             self.state = STATE_GAMEOVER
         else:
@@ -170,7 +172,8 @@ class MyApp:
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        self.is_running = False
+                        pygame.quit()
+                        sys.exit()
 
             pacman.move(goal)
             self.update_score(SCORE_PENALTY + SCORE_BONUS)
@@ -462,7 +465,7 @@ class MyApp:
         """
         Run this program.
         """
-        while self.is_running:
+        while True:
             if self.state == STATE_HOME:
                 self.home_draw()
                 self.home_event()
@@ -489,12 +492,7 @@ class MyApp:
                 self.victory_draw3()
                 self.victory_draw4()
                 self.victory_draw5()
-            else:
-                self.is_running = False
-
-        self.clock.tick(FPS)
-        pygame.quit()
-        sys.exit()
+            self.clock.tick(FPS)
     ####################################################################################################################
 
 
@@ -518,7 +516,8 @@ class MyApp:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.is_running = False
+                    pygame.quit()
+                    sys.exit()
 
 
     def victory_draw1(self):
@@ -527,7 +526,8 @@ class MyApp:
         self.screen.blit(self.pacman1, (50, 350))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
                     self.state = STATE_HOME
@@ -546,7 +546,8 @@ class MyApp:
         self.screen.blit(self.pacman2, (125, 350))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
                     self.state = STATE_HOME
@@ -564,7 +565,8 @@ class MyApp:
         self.screen.blit(self.pacman3, (200, 350))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
                     self.state = STATE_HOME
@@ -583,7 +585,8 @@ class MyApp:
         self.screen.blit(self.pacman4, (275, 350))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
                     self.state = STATE_HOME
@@ -602,7 +605,8 @@ class MyApp:
         self.screen.blit(self.pacman5, (350, 350))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
                     self.state = STATE_HOME
@@ -632,7 +636,8 @@ class MyApp:
     def gameover_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 200 <= self.mouse[0] <= 400 and 430 <= self.mouse[1] <= 630:
                     self.state = STATE_HOME
@@ -735,7 +740,8 @@ class MyApp:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
                     self.state = STATE_HOME
@@ -767,14 +773,16 @@ class MyApp:
     def play_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
         pygame.display.update()
 
 
     def about_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if 225 <= self.mouse[0] <= 375 and 530 <= self.mouse[1] <= 580:
                     self.state = STATE_HOME
@@ -805,7 +813,8 @@ class MyApp:
                 elif 150 <= self.mouse[0] <= 450 and 600 <= self.mouse[1] <= 650:
                     self.state = STATE_HOME
             elif event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
 
         self.mouse = pygame.mouse.get_pos()
         if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 370:
@@ -841,9 +850,11 @@ class MyApp:
                 elif 150 <= self.mouse[0] <= 450 and 480 <= self.mouse[1] <= 530:
                     self.state = STATE_ABOUT
                 elif 150 <= self.mouse[0] <= 450 and 560 <= self.mouse[1] <= 610:
-                    self.is_running = False
+                    pygame.quit()
+                    sys.exit()
             elif event.type == pygame.QUIT:
-                self.is_running = False
+                pygame.quit()
+                sys.exit()
 
         self.mouse = pygame.mouse.get_pos()
         if 150 <= self.mouse[0] <= 450 and 320 <= self.mouse[1] <= 375:
