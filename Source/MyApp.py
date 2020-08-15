@@ -128,6 +128,7 @@ class MyApp:
         food.appear()
 
         monster_list = [Monster.Monster(self, monster_pos) for monster_pos in monster_pos_list]
+
         for monster in monster_list:
             monster.appear()
 
@@ -142,7 +143,6 @@ class MyApp:
                 self.ready()
 
                 path = path[1:]
-
                 for cell in path:
                     pacman.move(cell)
                     self.update_score(SCORE_PENALTY)

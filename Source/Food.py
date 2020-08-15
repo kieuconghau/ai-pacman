@@ -3,14 +3,15 @@ from Specification import *
 
 class Food:
     ################################################## CORE FUNCTIONS ##################################################
-    def __init__(self, app, pos):
+    def __init__(self, app, pos, cell=None):
         self.app = app
         self.grid_pos = [pos[0], pos[1]]
         self.pixel_pos = self.get_current_pixel_pos()
         self.color = GREEN
         self.radius = int(CELL_SIZE // 5)
         self.image = pygame.image.load(FOOD)
-        self.image = pygame.transform.scale(self.image, (20, 20))
+        self.image = pygame.transform.scale(self.image, (15, 15))
+        self.cell = cell
 
     def appear(self):
         """
@@ -35,5 +36,5 @@ class Food:
         """
         Draw the Food onto the screen.
         """
-        food_rect = self.app.screen.blit(self.image, (self.pixel_pos[0]-10, self.pixel_pos[1]-10))
+        food_rect = self.app.screen.blit(self.image, (self.pixel_pos[0]-5, self.pixel_pos[1]-5))
         pygame.display.update(food_rect)

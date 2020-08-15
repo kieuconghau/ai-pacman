@@ -128,3 +128,8 @@ CM_LEFT = r"../Assets/effects/close mouth left.png"
 CM_RIGHT = r"../Assets/effects/close mouth right.png"
 
 BLACK_BG = r"../Assets/effects/bg.png"
+
+GHOST_1_LEFT = r"../Assets/effects/ghost 1 left.png"
+GHOST_1_RIGHT = r"../Assets/effects/ghost 1 right.png"
+GHOST_2_LEFT = r"../Assets/effects/ghost 2 left.jpg"
+GHOST_2_RIGHT = r"../Assets/effects/ghost 2 right.jpg"
