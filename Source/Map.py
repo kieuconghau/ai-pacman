@@ -81,10 +81,10 @@ def init_cells(raw_map, pacman_pos):
                 if raw_map[y][x] == 0:
                     row.append(Cell((x, y), []))
                 else:
-                    row.append(Cell((x, y), [cState(raw_map[y][x])]))
+                    row.append(Cell((x, y), [CState(raw_map[y][x])]))
 
                 if pacman_pos == (x, y):
-                    row[x].state.append(cState(4))
+                    row[x].state.append(CState(4))
                     pacman_cell = row[x]
             else:
                 row.append(None)
@@ -106,9 +106,9 @@ def read_map_level_3(map_input_path):
             if raw_map[y][x] != 1:
                 cur = cells[y][x]
 
-                if cState.MONSTER in cur.state:
+                if CState.MONSTER in cur.state:
                     monster_cell_list.append(cur)
-                elif cState.FOOD in cur.state:
+                elif CState.FOOD in cur.state:
                     food_cell_list.append(cur)
 
                 graph_map[cur] = []
@@ -142,9 +142,9 @@ def read_map_level_4(map_input_path):
                 c_cur = cells[y][x]
                 cur = (x, y)
 
-                if cState.MONSTER in c_cur.state:
+                if CState.MONSTER in c_cur.state:
                     monster_cell_list.append(c_cur)
-                elif cState.FOOD in c_cur.state:
+                elif CState.FOOD in c_cur.state:
                     food_cell_list.append(c_cur)
 
                 graph_cell[c_cur] = []

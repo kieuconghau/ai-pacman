@@ -210,7 +210,7 @@ class MyApp:
             pacman.move(pacman_cell.pos)
             self.update_score(SCORE_PENALTY)
 
-            # Pacman passed a Monster?
+            # Pacman went through Monsters?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
@@ -229,7 +229,7 @@ class MyApp:
                 self.update_score(SCORE_BONUS)
 
 
-            # Monsters move.
+            # Monsters move around.
             for monster in monster_list:
                 old_cell = monster.cell
 
@@ -250,7 +250,7 @@ class MyApp:
                     temp_food = Food.Food(self, old_cell.pos, old_cell)
                     temp_food.appear()
 
-            # Pacman passed a Monster?
+            # Monsters caught Pacman up?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
@@ -308,7 +308,7 @@ class MyApp:
             pacman.move(pacman_cell.pos)
             self.update_score(SCORE_PENALTY)
 
-            # Monster catch Pacman :( ?
+            # Pacman went through Monsters?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
@@ -326,7 +326,7 @@ class MyApp:
             if pre_food_list_len != len(food_list):
                 self.update_score(SCORE_BONUS)
 
-            # Monsters move.
+            # Monsters try to seek and kill Pacman.
             for monster in monster_list:
                 old_cell = monster.cell
                 monster.cell.monster_leave()
@@ -342,7 +342,7 @@ class MyApp:
                     temp_food = Food.Food(self, old_cell.pos, old_cell)
                     temp_food.appear()
 
-            # Pacman passed a Monster?
+            # Monster caught Pacman up :( ?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
@@ -397,7 +397,7 @@ class MyApp:
             pacman.move(pacman_cell.pos)
             self.update_score(SCORE_PENALTY)
 
-            # Pacman passed a Monster?
+            # Pacman went through Monsters?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
@@ -415,8 +415,7 @@ class MyApp:
             if pre_food_list_len != len(food_list):
                 self.update_score(SCORE_BONUS)
 
-
-            # Monsters move.
+            # Monsters move randomly.
             for monster in monster_list:
                 old_cell = monster.cell
 
@@ -435,7 +434,7 @@ class MyApp:
                     temp_food = Food.Food(self, old_cell.pos, old_cell)
                     temp_food.appear()
 
-            # Pacman passed a Monster?
+            # Monster caught Pacman up :( ?
             for monster in monster_list:
                 if pacman_cell.pos == monster.cell.pos:
                     self.state = STATE_GAMEOVER
