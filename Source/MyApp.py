@@ -47,8 +47,10 @@ class MyApp:
         self.pacman5 = pygame.image.load(PACMAN5)
         self.pacman5 = pygame.transform.scale(self.pacman5, (PACMAN_WIDTH, PACMAN_HEIGHT))
 
+        self.play_screen_home_rect = None
+        self.play_screen_speed_rect = None
+
         self.state = STATE_HOME
-        self.is_running = True
         self.clock = pygame.time.Clock()
         self.mouse = None
 
@@ -57,8 +59,7 @@ class MyApp:
         """
         Launch the Pacman game with the corresponding level and map.
         """
-        pygame.display.update()
-        self.update_score(0)
+        self.launch_game_draw()
 
         if self.current_level == 1:
             self.level_1()
@@ -88,6 +89,7 @@ class MyApp:
 
         self.ready()
 
+        back_home = False
         if path is not None:
             goal = path[-1]
             path = path[1:-1]
@@ -97,18 +99,18 @@ class MyApp:
                 self.update_score(SCORE_PENALTY)
                 pygame.time.delay(SPEED)
 
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
+                if self.launch_game_event():
+                    back_home = True
+                    break
 
-            pacman.move(goal)
-            self.update_score(SCORE_PENALTY + SCORE_BONUS)
-            self.state = STATE_VICTORY
+            if not back_home:
+                pacman.move(goal)
+                self.update_score(SCORE_PENALTY + SCORE_BONUS)
+                self.state = STATE_VICTORY
+                pygame.time.delay(1000)
         else:
             self.state = STATE_GAMEOVER
-
-        pygame.time.delay(1000)
+            pygame.time.delay(1000)
 
 
     def level_2(self):
@@ -496,6 +498,50 @@ class MyApp:
     ####################################################################################################################
 
 
+    def launch_game_draw(self):
+        """
+        Draw the initial Play Screen.
+        """
+        pygame.display.update()
+        self.score = 0
+        self.update_score(0)
+
+        text_surf, text_rect = self.font.render("HOME", WHITE)
+        self.screen.blit(text_surf, HOME_RECT)
+        pygame.display.update(HOME_RECT)
+
+
+    def launch_game_event(self):
+        """
+        Get events while the Pacman is moving.
+        """
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if HOME_RECT[0] <= self.mouse[0] <= HOME_RECT[0] + HOME_RECT[2] and\
+                        HOME_RECT[1] <= self.mouse[1] <= HOME_RECT[1] + HOME_RECT[3]:
+                    self.state = STATE_HOME
+                    break
+
+        self.mouse = pygame.mouse.get_pos()
+        if HOME_RECT[0] <= self.mouse[0] <= HOME_RECT[0] + HOME_RECT[2] and \
+                HOME_RECT[1] <= self.mouse[1] <= HOME_RECT[1] + HOME_RECT[3]:
+            text_surf, text_rect = self.font.render("HOME", TOMATO)
+            self.screen.blit(text_surf, HOME_RECT)
+            pygame.display.update(HOME_RECT)
+        else:
+            text_surf, text_rect = self.font.render("HOME", WHITE)
+            self.screen.blit(text_surf, HOME_RECT)
+            pygame.display.update(HOME_RECT)
+
+        if self.state == STATE_HOME:
+            return True
+
+        return False
+
+
     def ready(self):
         """
         Ready effect (3, 2, 1, GO).
@@ -514,10 +560,8 @@ class MyApp:
             pygame.time.delay(1000)
             pygame.display.update(pygame.draw.rect(self.screen, BLACK, text_rect))
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+            if self.launch_game_event():
+                break
 
 
     def victory_draw1(self):
