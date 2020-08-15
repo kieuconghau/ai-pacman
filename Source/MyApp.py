@@ -22,6 +22,8 @@ class MyApp:
         self.current_map_index = 0
         self.current_level = 1
         self.score = 0
+        self.cur_speed_index = 1
+        self.speed_list = [("SPEED: 0.5", 0.5), ("SPEED: 1.0", 1), ("SPEED: 2.0", 2), ("SPEED: 5.0", 5)]
 
         self.map = pygame.image.load(MAP_IMG[self.current_map_index])
         self.map = pygame.transform.scale(self.map, (MAP_WIDTH, MAP_HEIGHT))
@@ -31,7 +33,8 @@ class MyApp:
         self.about_background = pygame.transform.scale(self.about_background, (APP_WIDTH, APP_HEIGHT))
         self.level_background = self.home_background
         self.gameover_background = pygame.image.load(GAMEOVER_BACKGROUND)
-        self.gameover_background = pygame.transform.scale(self.gameover_background, (GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT))
+        self.gameover_background = pygame.transform.scale(self.gameover_background,
+                                                          (GAMEOVER_BACKGROUND_WIDTH, GAMEOVER_BACKGROUND_HEIGHT))
         self.coin = pygame.image.load(COIN_IMAGE)
         self.coin = pygame.transform.scale(self.coin, (COIN_WIDTH, COIN_HEIGHT))
         self.victory_background = pygame.image.load(VICTORY_BACKGROUND)
@@ -47,13 +50,9 @@ class MyApp:
         self.pacman5 = pygame.image.load(PACMAN5)
         self.pacman5 = pygame.transform.scale(self.pacman5, (PACMAN_WIDTH, PACMAN_HEIGHT))
 
-        self.play_screen_home_rect = None
-        self.play_screen_speed_rect = None
-
         self.state = STATE_HOME
         self.clock = pygame.time.Clock()
         self.mouse = None
-
 
     def launch_pacman_game(self):
         """
@@ -72,13 +71,13 @@ class MyApp:
         elif self.current_level == 5:
             self.level_5()
 
-
     def level_1(self):
         """
         Level 1: Pac-man know the food’s position in map and monsters do not appear in map.
         There is only one food in the map.
         """
-        graph_map, pacman_pos, food_pos = Map.read_map_level_1(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
+        graph_map, pacman_pos, food_pos = Map.read_map_level_1(
+            MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
         path = GraphSearchAStar.search(graph_map, pacman_pos, food_pos)
 
         pacman = Pacman.Pacman(self, pacman_pos)
@@ -96,7 +95,7 @@ class MyApp:
                 for cell in path:
                     pacman.move(cell)
                     self.update_score(SCORE_PENALTY)
-                    pygame.time.delay(SPEED)
+                    pygame.time.delay(int(SPEED // self.speed_list[self.cur_speed_index][1]))
 
                     if self.launch_game_event():
                         back_home = True
@@ -111,14 +110,13 @@ class MyApp:
                 self.state = STATE_GAMEOVER
                 pygame.time.delay(1000)
 
-
     def level_2(self):
         """
         Level 2: monsters stand in the place ever (never move around).
         If Pac-man pass through the monster or vice versa, game is over.
         There is still one food in the map and Pac-man know its position.
         """
-        graph_map, pacman_pos, food_pos, monster_pos_list =\
+        graph_map, pacman_pos, food_pos, monster_pos_list = \
             Map.read_map_level_2(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index], monster_as_wall=True)
 
         path = GraphSearchAStar.search(graph_map, pacman_pos, food_pos)
@@ -152,7 +150,7 @@ class MyApp:
                         if cell in monster_pos_list:
                             break
 
-                        pygame.time.delay(SPEED)
+                        pygame.time.delay(int(SPEED // self.speed_list[self.cur_speed_index][1]))
 
                         if self.launch_game_event():
                             back_home = True
@@ -168,7 +166,7 @@ class MyApp:
                 for cell in path:
                     pacman.move(cell)
                     self.update_score(SCORE_PENALTY)
-                    pygame.time.delay(SPEED)
+                    pygame.time.delay(int(SPEED // self.speed_list[self.cur_speed_index][1]))
 
                     if self.launch_game_event():
                         back_home = True
@@ -180,7 +178,6 @@ class MyApp:
                     self.state = STATE_VICTORY
                     pygame.time.delay(1000)
 
-
     def level_3(self):
         """
         Level 3: Pac-man cannot see the foods if they are outside Pacman’s nearest threestep.
@@ -189,7 +186,8 @@ class MyApp:
         Monsters just move one step in any valid direction (if any) around the initial location at the start of the game.
         Each step Pacman go, each step Monsters move.
         """
-        cells, graph_map, pacman_cell, food_cell_list, monster_cell_list = Map.read_map_level_3(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
+        cells, graph_map, pacman_cell, food_cell_list, monster_cell_list = Map.read_map_level_3(
+            MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
 
         food_list = [Food.Food(self, food_cell.pos, food_cell) for food_cell in food_cell_list]
         for food in food_list:
@@ -268,14 +266,13 @@ class MyApp:
                     break
 
                 # Graphic: "while True" handling.
-                pygame.time.delay(SPEED)
+                pygame.time.delay(int(SPEED // self.speed_list[self.cur_speed_index][1]))
                 if self.launch_game_event():
                     back_home = True
                     break
 
             if not back_home:
                 pygame.time.delay(1000)
-
 
     def level_4(self):
         """
@@ -362,14 +359,13 @@ class MyApp:
                     break
 
                 # Graphic: "while True" handling.
-                pygame.time.delay(SPEED)
+                pygame.time.delay(int(SPEED // self.speed_list[self.cur_speed_index][1]))
                 if self.launch_game_event():
                     back_home = True
                     break
 
             if not back_home:
                 pygame.time.delay(1000)
-
 
     def level_5(self):
         """
@@ -379,7 +375,8 @@ class MyApp:
         Monsters just move one step in any valid direction.
         Each step Pacman go, each step Monsters move.
         """
-        cells, graph_map, pacman_cell, food_cell_list, monster_cell_list = Map.read_map_level_3(MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
+        cells, graph_map, pacman_cell, food_cell_list, monster_cell_list = Map.read_map_level_3(
+            MAP_INPUT_TXT[self.current_level - 1][self.current_map_index])
 
         food_list = [Food.Food(self, food_cell.pos, food_cell) for food_cell in food_cell_list]
         for food in food_list:
@@ -464,7 +461,6 @@ class MyApp:
             if not back_home:
                 pygame.time.delay(1000)
 
-
     def run(self):
         """
         Run this program.
@@ -497,8 +493,8 @@ class MyApp:
                 self.victory_draw4()
                 self.victory_draw5()
             self.clock.tick(FPS)
-    ####################################################################################################################
 
+    ####################################################################################################################
 
     def launch_game_draw(self):
         """
@@ -506,12 +502,16 @@ class MyApp:
         """
         pygame.display.update()
         self.score = 0
+        self.cur_speed_index = 1
         self.update_score(0)
 
         text_surf, text_rect = self.font.render("HOME", WHITE)
         self.screen.blit(text_surf, HOME_RECT)
         pygame.display.update(HOME_RECT)
 
+        text_surf, text_rect = self.font.render(self.speed_list[self.cur_speed_index][0], WHITE)
+        self.screen.blit(text_surf, SPEED_RECT)
+        pygame.display.update(SPEED_RECT)
 
     def launch_game_event(self):
         """
@@ -522,9 +522,14 @@ class MyApp:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if HOME_RECT[0] <= self.mouse[0] <= HOME_RECT[0] + HOME_RECT[2] and\
+                if HOME_RECT[0] <= self.mouse[0] <= HOME_RECT[0] + HOME_RECT[2] and \
                         HOME_RECT[1] <= self.mouse[1] <= HOME_RECT[1] + HOME_RECT[3]:
                     self.state = STATE_HOME
+                    break
+                if SPEED_RECT[0] <= self.mouse[0] <= SPEED_RECT[0] + SPEED_RECT[2] and \
+                        SPEED_RECT[1] <= self.mouse[1] <= SPEED_RECT[1] + SPEED_RECT[3]:
+                    self.cur_speed_index += 1
+                    self.cur_speed_index %= len(self.speed_list)
                     break
 
         self.mouse = pygame.mouse.get_pos()
@@ -537,12 +542,22 @@ class MyApp:
             text_surf, text_rect = self.font.render("HOME", WHITE)
             self.screen.blit(text_surf, HOME_RECT)
             pygame.display.update(HOME_RECT)
+        if SPEED_RECT[0] <= self.mouse[0] <= SPEED_RECT[0] + SPEED_RECT[2] and \
+                SPEED_RECT[1] <= self.mouse[1] <= SPEED_RECT[1] + SPEED_RECT[3]:
+            pygame.draw.rect(self.screen, BLACK, SPEED_RECT)
+            text_surf, text_rect = self.font.render(self.speed_list[self.cur_speed_index][0], TOMATO)
+            self.screen.blit(text_surf, SPEED_RECT)
+            pygame.display.update(SPEED_RECT)
+        else:
+            pygame.draw.rect(self.screen, BLACK, SPEED_RECT)
+            text_surf, text_rect = self.font.render(self.speed_list[self.cur_speed_index][0], WHITE)
+            self.screen.blit(text_surf, SPEED_RECT)
+            pygame.display.update(SPEED_RECT)
 
         if self.state == STATE_HOME:
             return True
 
         return False
-
 
     def ready(self):
         """
@@ -552,7 +567,7 @@ class MyApp:
         for text in text_list:
             text_surf, text_rect = self.font.render(text, WHITE)
 
-            text_pos = (READY_POS[0] - len(text)*5, READY_POS[1])
+            text_pos = (READY_POS[0] - len(text) * 5, READY_POS[1])
             text_rect[0] = text_pos[0]
             text_rect[1] = text_pos[1]
 
@@ -563,11 +578,9 @@ class MyApp:
             pygame.display.update(pygame.draw.rect(self.screen, BLACK, text_rect))
 
             if self.launch_game_event():
-                print("Yes")
                 return False
 
         return True
-
 
     def victory_draw1(self):
         self.screen.fill(BLACK)
@@ -588,7 +601,6 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
-
     def victory_draw2(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.victory_background, (50, 0))
@@ -608,7 +620,6 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
-
     def victory_draw3(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.pacman3, (200, 350))
@@ -626,7 +637,6 @@ class MyApp:
             self.draw_button(self.screen, OK_POS, LIGHT_GREY, BLACK, "OK")
         pygame.time.delay(100)
         pygame.display.update()
-
 
     def victory_draw4(self):
         self.screen.fill(BLACK)
@@ -647,7 +657,6 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
-
     def victory_draw5(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.victory_background, (50, 0))
@@ -667,7 +676,6 @@ class MyApp:
         pygame.time.delay(100)
         pygame.display.update()
 
-
     def gameover_draw1(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.gameover_background, (0, 0))
@@ -675,13 +683,11 @@ class MyApp:
         pygame.time.delay(350)
         pygame.display.update()
 
-
     def gameover_draw2(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.gameover_background, (0, 0))
         pygame.time.delay(350)
 
-     
     def gameover_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -693,7 +699,6 @@ class MyApp:
         self.mouse = pygame.mouse.get_pos()
 
         pygame.display.update()
-
 
     def update_score(self, achived_score):
         """
@@ -715,27 +720,25 @@ class MyApp:
         self.screen.blit(text_surf, SCORE_POS)
         pygame.display.update(text_rect)
 
-
     def draw_grids(self):
         """
         Draw the grid onto the map for better designing.
         """
         for x in range(int(MAP_WIDTH / CELL_SIZE) + 1):
             self.screen.blit(self.font.render(str(x % 10), WHITE)[0],
-                             (x*CELL_SIZE + MAP_POS_X + CELL_SIZE//4, MAP_POS_Y - CELL_SIZE))
+                             (x * CELL_SIZE + MAP_POS_X + CELL_SIZE // 4, MAP_POS_Y - CELL_SIZE))
 
             pygame.draw.line(self.screen, (107, 107, 107),
-                             (x*CELL_SIZE + MAP_POS_X, MAP_POS_Y),
+                             (x * CELL_SIZE + MAP_POS_X, MAP_POS_Y),
                              (x * CELL_SIZE + MAP_POS_X, MAP_HEIGHT + MAP_POS_Y))
 
         for y in range(int(MAP_HEIGHT / CELL_SIZE) + 1):
             self.screen.blit(self.font.render(str(y % 10), WHITE)[0],
-                             (MAP_POS_X - CELL_SIZE, y*CELL_SIZE + MAP_POS_Y))
+                             (MAP_POS_X - CELL_SIZE, y * CELL_SIZE + MAP_POS_Y))
 
             pygame.draw.line(self.screen, (107, 107, 107),
-                             (MAP_POS_X, y*CELL_SIZE + MAP_POS_Y),
+                             (MAP_POS_X, y * CELL_SIZE + MAP_POS_Y),
                              (MAP_WIDTH + MAP_POS_X, y * CELL_SIZE + MAP_POS_Y))
-
 
     def draw_button(self, surf, rect, button_color, text_color, text):
         pygame.draw.rect(surf, button_color, rect)
@@ -743,21 +746,17 @@ class MyApp:
         text_rect.center = rect.center
         self.screen.blit(text_surf, text_rect)
 
-
     @staticmethod
     def draw_triangle_button(surf, rect, button_color):
         pygame.draw.polygon(surf, button_color, rect)
-
 
     def home_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.home_background, (0, 0))
 
-
     def play_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.map, (MAP_POS_X, MAP_POS_Y))
-
 
     def about_draw(self):
         self.screen.fill(BLACK)
@@ -773,15 +772,12 @@ class MyApp:
         text_surf, text_rect = self.font.render("18127268 - Tran Thanh Tam", TOMATO)
         self.screen.blit(text_surf, (150, 300))
 
-
     def level_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.level_background, (0, 0))
 
-
     def setting_draw(self):
         self.screen.fill(BLACK)
-
 
     def setting_event(self):
         self.map = pygame.transform.scale(self.map, (MAP_WIDTH, MAP_HEIGHT))
@@ -802,7 +798,6 @@ class MyApp:
                     self.current_map_index %= MAP_NUM
                 self.map = pygame.image.load(MAP_IMG[self.current_map_index])
 
-
         self.mouse = pygame.mouse.get_pos()
         if 255 <= self.mouse[0] <= 355 and 620 <= self.mouse[1] <= 670:
             self.draw_button(self.screen, OK_POS, DARK_GREY, RED, "OK")
@@ -818,14 +813,12 @@ class MyApp:
             self.draw_triangle_button(self.screen, TRIANGLE_2_POS, LIGHT_GREY)
         pygame.display.update()
 
-
     def play_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
-
 
     def about_event(self):
         for event in pygame.event.get():
@@ -842,7 +835,6 @@ class MyApp:
         else:
             self.draw_button(self.screen, BACK_POS, LIGHT_GREY, BLACK, "Back")
         pygame.display.update()
-
 
     def level_event(self):
         for event in pygame.event.get():
@@ -887,7 +879,6 @@ class MyApp:
         else:
             self.draw_button(self.screen, BACK_LEVEL_POS, LIGHT_GREY, BLACK, "Back")
         pygame.display.update()
-
 
     def home_event(self):
         for event in pygame.event.get():
