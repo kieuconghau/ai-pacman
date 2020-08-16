@@ -110,8 +110,8 @@ def update_heuristic(cells, graph_map, remembered, start, cur, max_depth, cell_t
     if cell_type == "monster":
         monster = 0
         if max_depth == 2: monster = float("-inf")
-        if max_depth == 1: monster = -100
-        if max_depth == 0: monster = -50
+        if max_depth == 1: monster = float("-inf")
+        if max_depth == 0: monster = -100
         cur.heuristic += monster
 
     for child in graph_map[cur]:
