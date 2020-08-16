@@ -884,12 +884,15 @@ class MyApp:
             self.draw_triangle_button(self.screen, TRIANGLE_2_POS, LIGHT_GREY)
         pygame.display.update()
 
-    def play_event(self):
+
+    @staticmethod
+    def play_event():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
+
 
     def about_event(self):
         for event in pygame.event.get():
@@ -907,6 +910,7 @@ class MyApp:
             self.draw_button(self.screen, BACK_POS, LIGHT_GREY, BLACK, "Back")
         pygame.display.update()
 
+
     def level_event(self):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -923,6 +927,9 @@ class MyApp:
                     self.state = STATE_PLAYING
                     self.current_level = 4
                 elif 150 <= self.mouse[0] <= 450 and 600 <= self.mouse[1] <= 650:
+                    self.state = STATE_PLAYING
+                    self.current_level = 5
+                elif 500 <= self.mouse[0] <= 570 and 600 <= self.mouse[1] <= 650:
                     self.state = STATE_HOME
             elif event.type == pygame.QUIT:
                 pygame.quit()
@@ -946,6 +953,10 @@ class MyApp:
         else:
             self.draw_button(self.screen, LEVEL_4_POS, LIGHT_GREY, BLACK, "Level 4")
         if 150 <= self.mouse[0] <= 450 and 600 <= self.mouse[1] <= 650:
+            self.draw_button(self.screen, LEVEL_5_POS, DARK_GREY, RED, "Level 5")
+        else:
+            self.draw_button(self.screen, LEVEL_5_POS, LIGHT_GREY, BLACK, "Level 5")
+        if 500 <= self.mouse[0] <= 570 and 600 <= self.mouse[1] <= 650:
             self.draw_button(self.screen, BACK_LEVEL_POS, DARK_GREY, RED, "Back")
         else:
             self.draw_button(self.screen, BACK_LEVEL_POS, LIGHT_GREY, BLACK, "Back")
