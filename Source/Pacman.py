@@ -28,8 +28,8 @@ class Pacman:
 
         self.food_cell_in_sight_list = []
         self.path_to_food_cell_list = []
-        self.food_in_cur_sight_list = []
-        self.monster_in_cur_sight_list = []
+        self.cur_food_cell_in_sight_list = []
+        self.cur_monster_in_sight_list = []
 
 
     def appear(self):
@@ -58,41 +58,31 @@ class Pacman:
         :param sight: The sight of Pacman (sight = 3)
         :return:
         """
-        self.food_in_cur_sight_list = []
-        self.monster_in_cur_sight_list = []
+        self.cur_food_cell_in_sight_list = []
+        self.cur_monster_in_sight_list = []
 
         for neighbor_cell in graph_map[self.cell]:
             self.recursive_see_nothing(graph_map, self.cell, neighbor_cell, sight - 1)
 
-        return len(self.food_in_cur_sight_list) == 0 and len(self.monster_in_cur_sight_list) == 0
+        return len(self.cur_food_cell_in_sight_list) == 0 and len(self.cur_monster_in_sight_list) == 0
 
 
-    def spread_peas(self, pacman_old_cell, is_backtracking):
+    def spread_peas(self, pacman_old_cell):
         for path_to_food_cell in self.path_to_food_cell_list:
-
-            for i in range(len(path_to_food_cell)):
-                if path_to_food_cell[i] == pacman_old_cell:
-                    path_to_food_cell = path_to_food_cell[:i]
-                    break
-
             path_to_food_cell.append(pacman_old_cell)
-        if is_backtracking:
-            self.path_to_food_cell_list[-1].pop()
 
 
     def backtrack_nearest_food_in_sight(self, graph_map):
         next_cell = self.path_to_food_cell_list[-1][-1]
 
-        print("1: ", end='')
         print(self.food_cell_in_sight_list[-1].pos, end='')
         print([food.pos for food in self.path_to_food_cell_list[-1]])
 
         for path_to_food_cell in self.path_to_food_cell_list:
             path_to_food_cell.pop(-1)
 
-        print("2: ", end='')
-        print(self.food_cell_in_sight_list[-1].pos, end='')
-        print([food.pos for food in self.path_to_food_cell_list[-1]])
+        if abs(next_cell.pos[0] - self.grid_pos[0]) + abs(next_cell.pos[1] - self.grid_pos[1]) != 1:
+            print("WAIT!")
 
         return next_cell
 
@@ -106,11 +96,11 @@ class Pacman:
                 self.food_cell_in_sight_list.append(cur_cell)
                 self.path_to_food_cell_list.append([])
 
-            if cur_cell.exist_food() and cur_cell not in self.food_in_cur_sight_list:
-                self.food_in_cur_sight_list.append(cur_cell)
+            if cur_cell.exist_food() and cur_cell not in self.cur_food_cell_in_sight_list:
+                self.cur_food_cell_in_sight_list.append(cur_cell)
 
-            if cur_cell.exist_monster() and cur_cell not in self.monster_in_cur_sight_list:
-                self.monster_in_cur_sight_list.append(cur_cell)
+            if cur_cell.exist_monster() and cur_cell not in self.cur_monster_in_sight_list:
+                self.cur_monster_in_sight_list.append(cur_cell)
 
             for neighbor_cell in graph_map[cur_cell]:
                 if neighbor_cell != parent_cell:

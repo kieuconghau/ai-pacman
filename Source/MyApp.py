@@ -227,7 +227,8 @@ class MyApp:
                 self.update_score(SCORE_PENALTY)
 
                 # Spread the peas.
-                pacman.spread_peas(pacman_old_cell, is_backtracking)
+                if not is_backtracking:
+                    pacman.spread_peas(pacman_old_cell)
 
                 # Pacman went through Monsters?
                 for monster in monster_list:
