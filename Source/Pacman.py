@@ -125,14 +125,8 @@ class Pacman:
     def back_track(self, graph_map):
         next_cell = self.path_to_food_cell_in_brain_list[-1][-1]
 
-        print(self.food_cell_in_brain_list[-1].pos, end='')
-        print([food.pos for food in self.path_to_food_cell_in_brain_list[-1]])
-
         for path_to_food_cell in self.path_to_food_cell_in_brain_list:
             path_to_food_cell.pop(-1)
-
-        if abs(next_cell.pos[0] - self.grid_pos[0]) + abs(next_cell.pos[1] - self.grid_pos[1]) != 1:
-            print("WAIT!")
 
         return next_cell
 
