@@ -26,10 +26,13 @@ class Pacman:
 
         self.cell = cell
 
+        # Pacman's brain
+        self.food_cell_in_brain_list = []
+        self.path_to_food_cell_in_brain_list = []
+
+        # Pacman's sight
         self.food_cell_in_sight_list = []
-        self.path_to_food_cell_list = []
-        self.cur_food_cell_in_sight_list = []
-        self.cur_monster_in_sight_list = []
+        self.monster_cell_in_sight_list = []
 
 
     def appear(self):
@@ -50,7 +53,7 @@ class Pacman:
         self.draw()
 
 
-    def see_nothing(self, graph_map, sight):
+    def observe(self, graph_map, sight):
         """
         Check if Pacman see nothing in its sight and add all Food_Cells which are in sight of Pacman to its brain.
 
@@ -58,27 +61,74 @@ class Pacman:
         :param sight: The sight of Pacman (sight = 3)
         :return:
         """
-        self.cur_food_cell_in_sight_list = []
-        self.cur_monster_in_sight_list = []
+        # Reset Pacman's sight.
+        self.food_cell_in_sight_list = []
+        self.monster_cell_in_sight_list = []
 
+        # Update Pacman's current sight.
         for neighbor_cell in graph_map[self.cell]:
-            self.recursive_see_nothing(graph_map, self.cell, neighbor_cell, sight - 1)
+            self.recursive_observe(graph_map, self.cell, neighbor_cell, sight - 1)
 
-        return len(self.cur_food_cell_in_sight_list) == 0 and len(self.cur_monster_in_sight_list) == 0
+        nearby_monster_food_cell_list = []
+        for food_cell_in_sight in self.food_cell_in_sight_list:
+            if self.nearby_monster_cell(food_cell_in_sight):
+                nearby_monster_food_cell_list.append(food_cell_in_sight)
+
+        food_cell_index = []
+        for index in range(len(self.food_cell_in_brain_list)):
+            if self.nearby_monster_cell(self.food_cell_in_brain_list[index]):
+                food_cell_index.append(index)
+        if len(food_cell_index) != 0:
+            for index in reversed(food_cell_index):
+                self.food_cell_in_brain_list.pop(index)
+                self.path_to_food_cell_in_brain_list.pop(index)
+
+        for nearby_monster_food_cell in nearby_monster_food_cell_list:
+            self.food_cell_in_sight_list.remove(nearby_monster_food_cell)
+
+        # Update Pacman's brain.
+        for food_cell_in_sight in self.food_cell_in_sight_list:
+            for index in range(len(self.food_cell_in_brain_list)):
+                if food_cell_in_sight == self.food_cell_in_brain_list[index]:
+                    self.food_cell_in_brain_list.remove(self.food_cell_in_brain_list[index])
+                    self.path_to_food_cell_in_brain_list.remove(self.path_to_food_cell_in_brain_list[index])
+                    break
+            self.food_cell_in_brain_list.append(food_cell_in_sight)
+            self.path_to_food_cell_in_brain_list.append([])
+
+
+    def nearby_monster_cell(self, food_cell):
+        for monster_cell in self.monster_cell_in_sight_list:
+            if abs(monster_cell.pos[0] - food_cell.pos[0]) + abs(monster_cell.pos[1] - food_cell.pos[1]) <= 2:
+                return True
+
+        return False
+
+
+    def empty_brain(self):
+        return len(self.food_cell_in_brain_list) == 0
+
+
+    def have_monster_in_cur_sight(self):
+        return len(self.monster_cell_in_sight_list) != 0
+
+
+    def have_food_in_cur_sight(self):
+        return len(self.food_cell_in_sight_list) != 0
 
 
     def spread_peas(self, pacman_old_cell):
-        for path_to_food_cell in self.path_to_food_cell_list:
+        for path_to_food_cell in self.path_to_food_cell_in_brain_list:
             path_to_food_cell.append(pacman_old_cell)
 
 
-    def backtrack_nearest_food_in_sight(self, graph_map):
-        next_cell = self.path_to_food_cell_list[-1][-1]
+    def back_track(self, graph_map):
+        next_cell = self.path_to_food_cell_in_brain_list[-1][-1]
 
-        print(self.food_cell_in_sight_list[-1].pos, end='')
-        print([food.pos for food in self.path_to_food_cell_list[-1]])
+        print(self.food_cell_in_brain_list[-1].pos, end='')
+        print([food.pos for food in self.path_to_food_cell_in_brain_list[-1]])
 
-        for path_to_food_cell in self.path_to_food_cell_list:
+        for path_to_food_cell in self.path_to_food_cell_in_brain_list:
             path_to_food_cell.pop(-1)
 
         if abs(next_cell.pos[0] - self.grid_pos[0]) + abs(next_cell.pos[1] - self.grid_pos[1]) != 1:
@@ -90,21 +140,17 @@ class Pacman:
     ####################################################################################################################
 
 
-    def recursive_see_nothing(self, graph_map, parent_cell, cur_cell, sight):
+    def recursive_observe(self, graph_map, parent_cell, cur_cell, sight):
         if sight >= 0:
             if cur_cell.exist_food() and cur_cell not in self.food_cell_in_sight_list:
                 self.food_cell_in_sight_list.append(cur_cell)
-                self.path_to_food_cell_list.append([])
 
-            if cur_cell.exist_food() and cur_cell not in self.cur_food_cell_in_sight_list:
-                self.cur_food_cell_in_sight_list.append(cur_cell)
-
-            if cur_cell.exist_monster() and cur_cell not in self.cur_monster_in_sight_list:
-                self.cur_monster_in_sight_list.append(cur_cell)
+            if cur_cell.exist_monster() and cur_cell not in self.monster_cell_in_sight_list:
+                self.monster_cell_in_sight_list.append(cur_cell)
 
             for neighbor_cell in graph_map[cur_cell]:
                 if neighbor_cell != parent_cell:
-                    self.recursive_see_nothing(graph_map, cur_cell, neighbor_cell, sight - 1)
+                    self.recursive_observe(graph_map, cur_cell, neighbor_cell, sight - 1)
 
 
     def update_direction(self, new_grid_pos):

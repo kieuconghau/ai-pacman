@@ -207,6 +207,9 @@ class MyApp:
             back_home = False
             pacman_is_caught = False
 
+            self.draw_grids()
+            pygame.display.update()
+
             while True:
                 is_backtracking = False
                 pacman_old_cell = pacman.cell
@@ -214,9 +217,11 @@ class MyApp:
                 # Pacman observes all of Cells in its sight then decide the direction to move.
                 pacman.cell.pacman_leave()
 
-                if pacman.see_nothing(graph_map, 3) and len(pacman.food_cell_in_sight_list) != 0:
+                pacman.observe(graph_map, 3)
+
+                if not pacman.empty_brain() and not pacman.have_food_in_cur_sight():
                     # Pacman tracks the peas which leads to one of Food that Pacman saw in the past.
-                    pacman.cell = pacman.backtrack_nearest_food_in_sight(graph_map)
+                    pacman.cell = pacman.back_track(graph_map)
                     is_backtracking = True
                 else:
                     # Pacman moves with heuristic.
@@ -248,10 +253,10 @@ class MyApp:
                 if pre_food_list_len != len(food_list):
                     self.update_score(SCORE_BONUS)
 
-                    for i in range(len(pacman.food_cell_in_sight_list)):
-                        if pacman.food_cell_in_sight_list[i] == pacman.cell:
-                            pacman.food_cell_in_sight_list.remove(pacman.food_cell_in_sight_list[i])
-                            pacman.path_to_food_cell_list.remove(pacman.path_to_food_cell_list[i])
+                    for i in range(len(pacman.food_cell_in_brain_list)):
+                        if pacman.food_cell_in_brain_list[i] == pacman.cell:
+                            pacman.food_cell_in_brain_list.remove(pacman.food_cell_in_brain_list[i])
+                            pacman.path_to_food_cell_in_brain_list.remove(pacman.path_to_food_cell_in_brain_list[i])
                             break
 
                 # Monsters move around.
