@@ -339,7 +339,7 @@ class MyApp:
                 pacman.cell.pacman_leave()
                 pacman.observe(graph_cell, 3)
 
-                if not pacman.empty_brain() and not pacman.have_food_in_cur_sight():
+                if not pacman.empty_brain() and not pacman.have_food_in_cur_sight() and not pacman.have_monster_in_cur_sight():
                     # Pacman tracks the peas which leads to one of Food that Pacman saw in the past.
                     pacman.cell = pacman.back_track(graph_cell)
                     is_backtracking = True
@@ -450,7 +450,7 @@ class MyApp:
                 pacman.cell.pacman_leave()
                 pacman.observe(graph_map, 3)
 
-                if not pacman.empty_brain() and not pacman.have_food_in_cur_sight():
+                if not pacman.empty_brain() and not pacman.have_food_in_cur_sight() and not pacman.have_monster_in_cur_sight():
                     # Pacman tracks the peas which leads to one of Food that Pacman saw in the past.
                     pacman.cell = pacman.back_track(graph_map)
                     is_backtracking = True
