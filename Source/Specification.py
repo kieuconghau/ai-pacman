@@ -16,7 +16,8 @@ MAP_IMG = [r"../Assets/maps/map_1.png",
 MAP_INPUT_TXT = [[r"../Assets/levels/level_1/map_1.txt", r"../Assets/levels/level_1/map_2.txt", r"../Assets/levels/level_1/map_3.txt", r"../Assets/levels/level_1/map_4.txt", r"../Assets/levels/level_1/map_5.txt"],
                  [r"../Assets/levels/level_2/map_1.txt", r"../Assets/levels/level_2/map_2.txt", r"../Assets/levels/level_2/map_3.txt", r"../Assets/levels/level_2/map_4.txt", r"../Assets/levels/level_2/map_5.txt"],
                  [r"../Assets/levels/level_3/map_1.txt", r"../Assets/levels/level_3/map_2.txt", r"../Assets/levels/level_3/map_3.txt", r"../Assets/levels/level_3/map_4.txt", r"../Assets/levels/level_3/map_5.txt"],
-                 [r"../Assets/levels/level_4/map_1.txt", r"../Assets/levels/level_4/map_2.txt", r"../Assets/levels/level_4/map_3.txt", r"../Assets/levels/level_4/map_4.txt", r"../Assets/levels/level_4/map_5.txt"]]
+                 [r"../Assets/levels/level_4/map_1.txt", r"../Assets/levels/level_4/map_2.txt", r"../Assets/levels/level_4/map_3.txt", r"../Assets/levels/level_4/map_4.txt", r"../Assets/levels/level_4/map_5.txt"],
+                 [r"../Assets/levels/level_5/map_1.txt", r"../Assets/levels/level_5/map_2.txt", r"../Assets/levels/level_5/map_3.txt", r"../Assets/levels/level_5/map_4.txt", r"../Assets/levels/level_5/map_5.txt"]]
 MAP_NUM = len(MAP_IMG)
 
 
@@ -50,7 +51,8 @@ LEVEL_1_POS = pygame.Rect(150, 320, 300, 50)
 LEVEL_2_POS = pygame.Rect(150, 390, 300, 50)
 LEVEL_3_POS = pygame.Rect(150, 460, 300, 50)
 LEVEL_4_POS = pygame.Rect(150, 530, 300, 50)
-BACK_LEVEL_POS = pygame.Rect(150, 600, 300, 50)
+LEVEL_5_POS = pygame.Rect(150, 600, 300, 50)
+BACK_LEVEL_POS = pygame.Rect(500, 600, 70, 50)
 
 
 # About screen
